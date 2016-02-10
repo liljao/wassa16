@@ -31,7 +31,7 @@
 
 
 %todo: possibly a title that reflects the work better? 
-\title{Detecting threats of violence in online discussions}
+\title{Detecting threats of violence in YouTube comments}
 
 % Author information can be set in various styles:
 % For several authors from the same institution:
@@ -79,12 +79,13 @@ Threats of violence is an increasingly common occurrence in online
 discussions. It disproportionally affects women and minorities, often
 to the point of effectively eliminating them from taking part in
 discussions online. Moderators of social networks operate on such a
-big scale that manually reading all posts is an insurmountable
+large scale that manually reading all posts is an insurmountable
 task. Methods for automatically detecting threats could therefore
 potentially be very helpful, both to moderators of social networks,
 and to the members of those networks.
 
-In this article, we \ldots
+In this article, we evaluate different types of features for the task
+of detecting threats of violence in YouTube comments. We show that ...
 
 \section{Previous work}
 \label{sec:prev}
@@ -92,6 +93,25 @@ There is little previous work specifically devoted to the detection of
 threats of violence in text, however, there is previous work which
 examines other types of closely related phenomena, such as
 cyberbullying and hate-speech.
+
+\newcite{dinakar2011} proposes a method for the detection of
+cyberbullying by targeting combinations of profane or negative words,
+and words related to several predetermined sensitive topics. Their
+data set consists of over 50,000 YouTube comments taken from videos
+about controversial topics. The topics included sexuality, race,
+culture and intelligence. The comments were grouped by topic, and then
+12~\% of these were manually annotated to check that they were placed
+in the right category.
+
+The first stage of the detection was the same across all
+categories. It consisted of using a lexicon of negative words and a
+list of profane words, as well as part-of-speech tags from the
+training data that were correlated with bullying. The second stage was
+category-specific, and used commonly observed uni- and bigrams from
+each category as features. The experiments reported accuracies from
+63~\% to 80~\%, but did not report precision or recall.
+
+
 
 \section{The YouTube threat data set}
 \label{sec:data}
@@ -109,44 +129,13 @@ Anders Behring Breivik, Jihad, etc. \cite{hammer2014}.
 %The videos cover slightly different topics, the videos all contain the same
 %type of discussions, namely of xenophobia and racism.
 
-The \ds consists of 9,845 comments, comprised of 28,643
-sentences, see table \ref{tab:dataset}. In total there are 402,673 tokens in the sentences in the
-data set. There are 1,285 comments containing threats, and 1,384
-sentences containing threats, as seen in table \ref{tab:dataset}.
-\cite{hammer2014} report inter annotator agreement on this data
-set to be 98~\%, as calculated on 120 of the comments, doubly
-annotated for evaluation.
-
-Figure \ref{fig:comments} contains examples of some comments containing
-\tovs{} taken from the data set. The first line is the username or
-name, and the subsequent lines are the sentences of the comment. An
-empty line indicates the end of a comment. The sentences are annotated
-with a number indicating whether they contain a \tov{} (1), or not
-(0).
-
-\begin{figure}[h]
-\begin{verbatim}
-timpa666
-1    and i will kill every fucking muslim and arab!
-
-NimsXdimensions
-0    Need a solution?
-1    Drop one good ol' nuke on that black toilet in Mecca.
-
-Ammar Alozaibi
-1    Funny, We will conquer you all in just few years, U will be
-     my slave and your women will be my Sex Toy in Bed.
-
-LegitZombieSlayer1
-0     As long as i'm alive you'll have no victory.
-1     I'll kill all you cunts
-
-\end{verbatim}
-\caption{Examples of comments from the data set.}
-\label{fig:comments}
-\end{figure}
-
-
+The data set consists of 9,845 comments, comprised of 28,643
+sentences, see table \ref{tab:dataset}. In total there are 402,673
+tokens in the sentences in the data set. There are 1,285 comments
+containing threats, and 1,384 sentences containing threats, as seen in
+table \ref{tab:dataset}.  \cite{hammer2014} report inter annotator
+agreement on this data set to be 98~\%, as calculated on 120 of the
+comments, doubly annotated for evaluation.
 
 \begin{table}
 \begin{center}
@@ -168,11 +157,43 @@ LegitZombieSlayer1
 \label{tab:dataset}
 \end{table}
 
+%to-do: should we anonymize the user names?
+Figure \ref{fig:comments} provides some examples of comments containing
+\tovs{} taken from the data set. The first line is the username or
+name, and the subsequent lines are the sentences of the comment. An
+empty line indicates the end of a comment. The sentences are annotated
+with a number indicating whether they contain a \tov{} (1), or not
+(0).
+
+\begin{figure}[h]
+\begin{verbatim}
+timpa666
+1    and i will kill every fucking muslim and arab!
+
+NimsXdimensions
+0    Need a solution?
+1    Drop one good ol' nuke on that black toilet in Mecca.
+
+Ammar Alozaibi
+1    Funny, We will conquer you all in just few years, U will be
+     my slave and your women will be my Sex Toy in Bed.
+
+\end{verbatim}
+\caption{Examples of comments from the data set.}
+\label{fig:comments}
+\end{figure}
+
 
 \section{Experiments}
 \label{sec:exp}
 
 \subsection{Experimental setup}
+%% todo:
+%% - data split
+%% - preprocessing
+%% - machine learner
+%% - tuning
+%% - feature templates
 
 \subsection{Results}
 
