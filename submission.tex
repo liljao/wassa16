@@ -102,7 +102,6 @@ about controversial topics. The topics included sexuality, race,
 culture and intelligence. The comments were grouped by topic, and then
 12~\% of these were manually annotated to check that they were placed
 in the right category.
-
 The first stage of the detection was the same across all
 categories. It consisted of using a lexicon of negative words and a
 list of profane words, as well as part-of-speech tags from the
@@ -111,7 +110,41 @@ category-specific, and used commonly observed uni- and bigrams from
 each category as features. The experiments reported accuracies from
 63~\% to 80~\%, but did not report precision or recall.
 
+There has been quite a bit of work focused on the detection of threats
+in a data set of Dutch tweets \cite{nellngram2013,nellshallow2013}.
+The data set used for these experiments consisted a collection of 5000
+threatening tweets collected by a website over a period of about two
+years. In addition, a large number of random tweets were collected for
+development and testing. A set of 2.3 million random tweets was used
+for development, and a set of 1 million was used for testing. This set
+was not annotated in any way prior to being used in the experiments.
+The system relies on manually constructed recognition patterns, in the
+form of n-grams (uni-, bi- and trigrams, as well as skip bi- and
+trigrams), but do not go into detail about the methods used to
+construct these patterns, stating that the researchers relied on their
+(linguistic) intuition as speakers of Dutch \cite{nellngram2013}. In
+\newcite{nellshallow2013}, a manually crafted shallow parser is added
+to the system. This improves results to a precision of 39\% and a
+recall of 59\%.
 
+\newcite{warner2012} present a method for detecting unwanted or
+illegal comments in user-generated web text from the internet, which
+relies on machine learning in combination with template-based
+features. The data set used in the research came from two sources. The
+first consists of posts from Yahoo news groups, the second were
+webpages collected by the American Jewish Congress that had been
+identified as offensive. The data set was manually annotated, and then
+the hate speech was assigned to a category, such as antisemitic,
+anti-woman, anti-asian, etc. The research then focused on the
+antisemitic category.  The research approaches the problem as a
+word-sense disambiguation task, since the same words can be used in
+both hateful and non-hateful contexts. The features used in the
+classification were combinations of uni-, bi- and trigrams,
+part-of-speech-tags and Brown clusters.  The best results of the
+classifications were obtained using only unigrams as features, with a
+precision of 67~\% and a recall of 60~\%. The other feature sets
+garnered much lower results, and the authors suggest that deeper
+parsing could reveal significant phrase patterns.
 
 \section{The YouTube threat data set}
 \label{sec:data}
@@ -165,7 +198,7 @@ empty line indicates the end of a comment. The sentences are annotated
 with a number indicating whether they contain a \tov{} (1), or not
 (0).
 
-\begin{figure}[h]
+\begin{figure*}[h]
 \begin{verbatim}
 timpa666
 1    and i will kill every fucking muslim and arab!
@@ -181,7 +214,7 @@ Ammar Alozaibi
 \end{verbatim}
 \caption{Examples of comments from the data set.}
 \label{fig:comments}
-\end{figure}
+\end{figure*}
 
 
 \section{Experiments}
