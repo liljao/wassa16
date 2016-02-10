@@ -7,8 +7,23 @@
 \usepackage{times}
 \usepackage{latexsym}
 
+\usepackage{verbatim}
+\usepackage{booktabs}
+
 %\naaclfinalcopy % Uncomment this line for the final submission
 \def\naaclpaperid{***} %  Enter the naacl Paper ID here
+
+\newcommand{\tov}{threat of violence}
+\newcommand{\Tov}{Threat of violence}
+\newcommand{\tovs}{threats of violence}
+\newcommand{\Tovs}{Threats of violence}
+\newcommand{\hugo}{Hugo Lewi Hammer}
+\newcommand{\Dep}{Dependency parsing}
+\newcommand{\dep}{dependency parsing}
+
+
+\newcommand{\Ds}{The YouTube threat data set}
+\newcommand{\ds}{the YouTube threat data set}
 
 % To expand the titlebox for more authors, uncomment
 % below and set accordingly.
@@ -59,6 +74,7 @@ Here comes an abstract for this article
 \end{abstract}
 
 \section{Introduction}
+\label{sec:intro}
 Threats of violence is an increasingly common occurrence in online
 discussions. It disproportionally affects women and minorities, often
 to the point of effectively eliminating them from taking part in
@@ -71,10 +87,90 @@ and to the members of those networks.
 In this article, we \ldots
 
 \section{Previous work}
+\label{sec:prev}
+There is little previous work specifically devoted to the detection of
+threats of violence in text, however, there is previous work which
+examines other types of closely related phenomena, such as
+cyberbullying and hate-speech.
 
-\section{Data set}
+\section{The YouTube threat data set}
+\label{sec:data}
+The YouTube threat data set is comprised of user-written comments from
+eight different YouTube videos \cite{hammer2014}. A comment
+consists of a set of sentences, each of them manually annotated to be
+either a \tov{} (or support for a \tov{}) or not. The data set
+furthermore records the username\footnote{In 2013, YouTube changed its
+  commenting system from using unique usernames, to using "real
+  names", like Facebook and other sites \cite{youtube2013}. Some
+  accounts, however, did not provide real names, so they continue to
+  only be identified by their usernames.} of the user that posted the
+comment. The eight videos that the comments were posted to cover religious and political topics like halal slaughter, immigration,
+Anders Behring Breivik, Jihad, etc. \cite{hammer2014}. 
+%The videos cover slightly different topics, the videos all contain the same
+%type of discussions, namely of xenophobia and racism.
+
+The \ds consists of 9,845 comments, comprised of 28,643
+sentences, see table \ref{tab:dataset}. In total there are 402,673 tokens in the sentences in the
+data set. There are 1,285 comments containing threats, and 1,384
+sentences containing threats, as seen in table \ref{tab:dataset}.
+\cite{hammer2014} report inter annotator agreement on this data
+set to be 98~\%, as calculated on 120 of the comments, doubly
+annotated for evaluation.
+
+Figure \ref{fig:comments} contains examples of some comments containing
+\tovs{} taken from the data set. The first line is the username or
+name, and the subsequent lines are the sentences of the comment. An
+empty line indicates the end of a comment. The sentences are annotated
+with a number indicating whether they contain a \tov{} (1), or not
+(0).
+
+\begin{figure}[h]
+\begin{verbatim}
+timpa666
+1    and i will kill every fucking muslim and arab!
+
+NimsXdimensions
+0    Need a solution?
+1    Drop one good ol' nuke on that black toilet in Mecca.
+
+Ammar Alozaibi
+1    Funny, We will conquer you all in just few years, U will be
+     my slave and your women will be my Sex Toy in Bed.
+
+LegitZombieSlayer1
+0     As long as i'm alive you'll have no victory.
+1     I'll kill all you cunts
+
+\end{verbatim}
+\caption{Examples of comments from the data set.}
+\label{fig:comments}
+\end{figure}
+
+
+
+\begin{table}
+\begin{center}
+\begin{tabular}{lrrr}
+  %&   &   &   \\
+  \toprule
+  
+  & Commments  & Sentences  & Users posting \\
+  \midrule
+	
+  
+  Total  & $9,845$  & $28,643$  & $5,483$  \\
+  Threats  & $1,285$  & $1,384$  & $992$  \\
+  \bottomrule
+
+\end{tabular}
+\end{center}
+\caption{Number of comments, sentences and users in \ds{}}
+\label{tab:dataset}
+\end{table}
+
 
 \section{Experiments}
+\label{sec:exp}
 
 \subsection{Experimental setup}
 
@@ -85,6 +181,7 @@ In this article, we \ldots
 %\subsection{Held-out results}
 
 \section{Discussion}
+\label{sec:disc}
 
 \bibliography{wassa2016}
 \bibliographystyle{naaclhlt2016}
