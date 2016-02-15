@@ -10,6 +10,10 @@
 \usepackage{verbatim}
 \usepackage{booktabs}
 
+\usepackage{pgfplots}
+% Anbefalt her: https://www.sharelatex.com/learn/Pgfplots_package#Introduction
+\pgfplotsset{width=10cm}
+
 %\naaclfinalcopy % Uncomment this line for the final submission
 \def\naaclpaperid{***} %  Enter the naacl Paper ID here
 
@@ -75,7 +79,7 @@ Here comes an abstract for this article
 
 \section{Introduction}
 \label{sec:intro}
-Threats of violence is an increasingly common occurrence in online
+Threats of violence constitute an increasingly common occurrence in online
 discussions. It disproportionally affects women and minorities, often
 to the point of effectively eliminating them from taking part in
 discussions online. Moderators of social networks operate on such a
@@ -166,7 +170,7 @@ The data set consists of 9,845 comments, comprised of 28,643
 sentences, see table \ref{tab:dataset}. In total there are 402,673
 tokens in the sentences in the data set. There are 1,285 comments
 containing threats, and 1,384 sentences containing threats, as seen in
-table \ref{tab:dataset}.  \cite{hammer2014} report inter annotator
+table \ref{tab:dataset}.  \newcite{hammer2014} report inter annotator
 agreement on this data set to be 98~\%, as calculated on 120 of the
 comments, doubly annotated for evaluation.
 
@@ -198,7 +202,7 @@ empty line indicates the end of a comment. The sentences are annotated
 with a number indicating whether they contain a \tov{} (1), or not
 (0).
 
-\begin{figure*}[h]
+\begin{figure*}
 \begin{verbatim}
 timpa666
 1    and i will kill every fucking muslim and arab!
@@ -216,25 +220,45 @@ Ammar Alozaibi
 \label{fig:comments}
 \end{figure*}
 
-
 \section{Experiments}
 \label{sec:exp}
 
 \subsection{Experimental setup}
+The data set is split into an 80-20 training and testing set. All
+tuning and development experiments were performed using 10-fold
+cross-validation on the training set.
+
+Since threat annotation is performed on the sentence level, the data
+set has been manually split into sentences as part of the annotation
+process.  We performed tokenization, lemmatization, PoS-tagging and
+dependency parsing using the spaCy toolkit REF.  SpaCy assigns both
+the standard Penn Treebank PoS-tags REF, as well as the more
+coarse-grained Universal PoS tag set of \newcite{Pet:Das:McD:12}. The
+dependency parser assigns an analysis in compliance with the ClearNLP
+converter REF. The data set was further enriched with the cluster
+labels described in Turian et al.~\shortcite{Tur:Rat:Ben:10}, created
+using the Brown clustering algorithm \cite{Bro:deS:Mer:92} and induced
+from the RCV1 corpus, a corpus containing Reuters English newswire
+text, with approximately 63 million words and 3.3 million sentences.
+WordNet REF
+
+
+
 %% todo:
 %% - data split
 %% - preprocessing
+%%   Spacy, Brown clusters, WordNet
 %% - machine learner
 %% - tuning
 %% - feature templates
 
 \subsection{Results}
 
-%\subsection{Error analysis}
+\subsection{Error analysis}
 
-%\subsection{Held-out results}
+\subsection{Held-out results}
 
-\section{Discussion}
+\section{Conclusion}
 \label{sec:disc}
 
 \bibliography{wassa2016}
