@@ -276,11 +276,14 @@ with the cluster labels described in Turian et
 al.~\shortcite{Tur:Rat:Ben:10}, created using the Brown clustering
 algorithm \cite{Bro:deS:Mer:92} and induced from the RCV1 corpus, a
 corpus containing Reuters English newswire text, with approximately 63
-million words and 3.3 million sentences. We vary the number of clusters to be either 100,
-320, 1000 or 3200 clusters and use the full cluster label.
- WordNet REF
+million words and 3.3 million sentences. We vary the number of
+clusters to be either 100, 320, 1000 or 3200 clusters and use the full
+cluster label.  We also make use of the WordNet resource
+\cite{wordnet} to determine a word's synset, parent and grandparent
+synset.
 
 \begin{figure*}
+\begin{center}
 \begin{dependency}[arc edge, text only label, theme=simple]
   \begin{deptext}[column sep=.2cm]
     i \& m \& fucking \& scared \& kill \& them \& d \& : \\
@@ -297,12 +300,13 @@ million words and 3.3 million sentences. We vary the number of clusters to be ei
 \end{dependency}
 \caption{Dependency parse of example sentence from the data set, with assigned uPOS tags.}
 \label{fig:dep}
+\end{center}
 \end{figure*}
 
 \paragraph{Classifiers}
-
+Toolkits and references
 \paragraph{Tuning}
-
+Short on tuning
 \paragraph{Features}
 Based on the enriched data set, as described above, we experiment with the following lexical, morphosyntactic and semantic feature types:
 \begin{description}
@@ -335,11 +339,56 @@ forms like $<$kill, dobj, them$>$ would thus be generalized to
 $<$VERB, dobj, them$>$ using \emph{head-backoff} and $<$kill, dobj,
 PRON$>$ using \emph{modifier-backoff}. We apply backoff to bigram,
 trigram and dependency triple features.
-\subsection{Results}
+\subsection{Development results}
+Table \ref{tab:baseline} shows baseline results in terms of F-score
+for bag-of, bigram and trigram templates over lexical features (word
+form and lemma). The presented results constitute the best F-scores
+after tuning (which was only done on the MaxEnt classifier and the
+SVM, not on the random forest classifier), as discussed above. The
+overall best result came from the logistic regression classifier with
+the bag of word form feature set. Generally we see that feature sets
+containing bag of lexical features in some form outperform the
+$n$-gram feature sets.
+The feature set we will use as a baseline in the next stage of our
+experiments is bag of word forms. The feature set recieved an F-score
+of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$,
+using the MaxEnt classifier after tuning. We will also be
+using only the MaxEnt classifier for the remainder of the
+feature set experiments.
+\begin{table*}
+  \begin{center}
+    \begin{tabular}{lrrr}
+      \toprule
+
+      & MaxEnt & SVM & Random Forest \\
+      \midrule
+      Bag of word forms & $\textbf{0.6123}$ & $\textbf{0.6068}$ & $0.3582$ \\ % SVM bag of words er bare best dersom word form + uPOS ikke er med i tabellen
+      Bag of lemmas & $0.5902$ & $0.5982$ & $0.3483$ \\
+      Bigrams & $0.4856$ & $0.4887$ & $\textbf{0.4683}$ \\
+      Trigrams & $0.2776$ & $0.2856$ & $0.2673$ \\
+      
+      \bottomrule
+      % Data fra firstPass i classify
+      % Source/printFirstPassResults.py
+    \end{tabular}
+  \end{center}
+  \caption{Results for baseline system; F-score for bag-of, bigram and trigram templates over lexical features (word form and lemma).}
+  \label{tab:baseline}
+\end{table*}
+
+Morphosyntactic features:
+- bag of, bigram, trigram of pos, deprel
+- combine with baseline
+
+Semantic features:
+- bag of, bigram, trigram of Brown, WordNet
+- combine with baseline
+
+Combination of best from baseline, morphosyntactic and semantic
 
 \subsection{Error analysis}
 
-\subsection{Held-out results}M
+\subsection{Held-out results}
 
 \section{Conclusion}
 \label{sec:disc}
