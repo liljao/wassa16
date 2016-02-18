@@ -1,0 +1,93 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citename{Brown \bgroup et al.\egroup }1992]{Bro:deS:Mer:92}
+P.F. Brown, P.V. deSouza, R.L. Mercer, V.J.D. Pietra, and J.C. Lai.
+\newblock 1992.
+\newblock Class-based n-gram models of natural language.
+\newblock {\em Computational Linguistics}, 18.
+
+\bibitem[\protect\citename{Choi and Palmer}2012]{Cho:Pal:12}
+Jinho~D. Choi and Martha Palmer.
+\newblock 2012.
+\newblock Guidelines for the clear style constituent to dependency conversion.
+\newblock Technical Report 01-12, Institute of Cognitive Science, University of
+  Colorado Boulder.
+
+\bibitem[\protect\citename{Dinakar \bgroup et al.\egroup }2011]{dinakar2011}
+Karthik Dinakar, Roi Reichart, and Henry Lieberman.
+\newblock 2011.
+\newblock Modeling the detection of textual cyberbullying.
+\newblock In {\em Proceedings of The Social Mobile Web}.
+
+\bibitem[\protect\citename{Fellbaum}1998]{wordnet}
+Christiane Fellbaum, editor.
+\newblock 1998.
+\newblock {\em WordNet: an electronic lexical database}.
+\newblock MIT Press, Cambridge, MA.
+
+\bibitem[\protect\citename{Hammer}2014]{hammer2014}
+Hugo~Lewi Hammer.
+\newblock 2014.
+\newblock Detecting threats of violence in online discussion using bigrams of
+  important words.
+\newblock In {\em Proceedings of Intelligence and Security Informatics
+  Conference (JISIC)}, pages 319--319.
+
+\bibitem[\protect\citename{Joshi and Penstein-Rose}2009]{Jos:Pen:2009}
+Mahesh Joshi and Carolyn Penstein-Rose.
+\newblock 2009.
+\newblock Generalizing dependency features for opinion mining.
+\newblock In {\em Proceedings of the {ACL-IJCNLP} 2009 Conference Short
+  Papers}, page 313–316.
+
+\bibitem[\protect\citename{Marcus \bgroup et al.\egroup }1993]{Mar:San:Mar:93}
+Mitchell Marcus, Beatrice Santorini, and Mary~Ann Marcinkiewicz.
+\newblock 1993.
+\newblock Building a large annotated corpora of {E}nglish: The {Penn}
+  {Treebank}.
+\newblock {\em Computational Linguistics}, 19:313--330.
+
+\bibitem[\protect\citename{Oostdijk and van Halteren}2013a]{nellngram2013}
+Nelleke Oostdijk and Hans van Halteren.
+\newblock 2013a.
+\newblock N-gram-based recognition of threatening tweets.
+\newblock In {\em {Proceedings of Computational Linguistics and Intelligent
+  Text Processing}}, pages 183--196. Springer.
+
+\bibitem[\protect\citename{Oostdijk and van Halteren}2013b]{nellshallow2013}
+Nelleke Oostdijk and Hans van Halteren.
+\newblock 2013b.
+\newblock Shallow parsing for recognizing threats in {D}utch tweets.
+\newblock In {\em {Proceedings of IEEE/ACM International Conference on Advances
+  in Social Networks Analysis and Mining}}, Niagara, Canada. ACM.
+
+\bibitem[\protect\citename{Petrov \bgroup et al.\egroup }2012]{Pet:Das:McD:12}
+Slav Petrov, Dipanjan Das, and Ryan McDonald.
+\newblock 2012.
+\newblock A universal part-of-speech tagset.
+\newblock In {\em Proceedings of the {I}nternational {C}onference on {L}anguage
+  {R}esources and {E}valuation ({LREC})}, pages 2089--2096.
+
+\bibitem[\protect\citename{Turian \bgroup et al.\egroup }2010]{Tur:Rat:Ben:10}
+Joseph Turian, Lev Ratinov, and Yoshua Bengio.
+\newblock 2010.
+\newblock Word representations: a simple and general method for semi-supervised
+  learning.
+\newblock In {\em Proceedings of the 48th {M}eeting of the {A}ssociation for
+  {C}omputational {L}inguistics}.
+
+\bibitem[\protect\citename{Warner and Hirschberg}2012]{warner2012}
+William Warner and Julia Hirschberg.
+\newblock 2012.
+\newblock Detecting hate speech on the world wide web.
+\newblock In {\em {Proceedings of the Second Workshop on Language in Social
+  Media}}, pages 19--26. Association for Computational Linguistics.
+
+\bibitem[\protect\citename{YouTube}2013]{youtube2013}
+YouTube.
+\newblock 2013.
+\newblock We hear you: Better commenting coming to {YouTube}.
+\newblock youtube-global.blogspot.no/2013/09/youtube-new-comments.html/.
+\newblock [Online; accessed May 12th 2015].
+
+\end{thebibliography}
