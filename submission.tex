@@ -15,6 +15,7 @@
 \usepackage{tikz-dependency}
 
 \usepackage{xytree} % Dependency tree
+\usepackage{fancyvrb} % Comments verbatim
 
 
 %\naaclfinalcopy % Uncomment this line for the final submission
@@ -184,11 +185,13 @@ The YouTube threat data set is comprised of user-written comments from
 eight different YouTube videos \cite{hammer2014}. A comment
 consists of a set of sentences, each of them manually annotated to be
 either a \tov{} (or support for a \tov{}) or not. The data set
-furthermore records the username\footnote{In 2013, YouTube changed its
-  commenting system from using unique usernames, to using "real
-  names", like Facebook and other sites \cite{youtube2013}. Some
-  accounts, however, did not provide real names, so they continue to
-  only be identified by their usernames.} of the user that posted the
+furthermore records the username\footnote{The usernames were annonymized by us}
+%% \footnote{In 2013, YouTube changed its
+%%   commenting system from using unique usernames, to using "real
+%%   names", like Facebook and other sites \cite{youtube2013}. Some
+%%   accounts, however, did not provide real names, so they continue to
+%%   only be identified by their usernames.}
+  of the user that posted the
 comment. The eight videos that the comments were posted to cover religious and political topics like halal slaughter, immigration,
 Anders Behring Breivik, Jihad, etc. \cite{hammer2014}. 
 %The videos cover slightly different topics, the videos all contain the same
@@ -231,23 +234,22 @@ with a number indicating whether they contain a \tov{} (1), or not
 (0).
 
 \begin{figure}
-\begin{verbatim}
-timpa666
+\begin{Verbatim}[fontsize=\small]
+User #44
 1    and i will kill every
      fucking muslim and arab!
 
-NimsXdimensions
+User #88
 0    Need a solution?
 1    Drop one good ol' nuke on
      that black toilet in Mecca.
 
-Ammar Alozaibi
+User #138
 1    Funny, We will conquer you
      all in just few years, U will
      be my slave and your women
      will be my Sex Toy in Bed.
-
-\end{verbatim}
+\end{Verbatim}
 \caption{Examples of comments from the data set.}
 \label{fig:comments}
 \end{figure}
