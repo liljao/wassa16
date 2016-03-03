@@ -14,6 +14,8 @@
 \usepackage{tikz-qtree}
 \usepackage{tikz-dependency}
 
+\usepackage{xytree} % Dependency tree
+
 
 %\naaclfinalcopy % Uncomment this line for the final submission
 \def\naaclpaperid{***} %  Enter the naacl Paper ID here
@@ -307,10 +309,45 @@ synset.
 \end{center}
 \end{figure*}
 
+
+
+\begin{figure*}
+  \begin{center}
+
+    \xytext{
+      \xybarnode{i} &~~~&
+      \xybarnode{m}
+      \xybarconnect(UL,U){-2}"_{\small nsubj}"
+      \xybarconnect[21](UR,U){12}"^{\small punct}"
+      \xybarconnect[15](UR,UL){6}"^{\small conj}"
+      \xybarconnect[9](UR,U){4}"^{\small acomp}"
+      &~~~&
+      \xybarnode{fucking} &~~~&
+      \xybarnode{scared}
+      \xybarconnect(UL,U){-2}"_{\small amod}"
+      &~~~&
+      \xybarnode{kill}
+      \xybarconnect[9](U,U){4}"^{\small advmod}"
+      \xybarconnect(UR,U){2}"^{\small dobj}"
+      &~~~&
+      \xybarnode{them}
+      &~~~&
+      \xybarnode{d}
+      &~~~&
+      \xybarnode{:}
+    }
+    \caption{A visual representation of the dependency graph of our example sentence.}
+    \label{fig:dependencygraph}
+  \end{center}
+\end{figure*}
+
 \paragraph{Classifiers}
 Toolkits and references
 \paragraph{Tuning}
-Short on tuning
+When tuning each model, we aimed to maximize the F-score of the model. In the MaxEnt classifier and SVM we tuned the C-value, which for both classifiers is the inverse of regularization strength. When tuning these classifiers, we started with C-values from 1 to 150 in 10-value increments, selected the best performing C-value and repeated the process with ever decreasing increments, with the range of C-values centered on the best performing C-value thus far. After 6 iterations, we terminate the tuning, and select the best performing C-value. When tuning the RandomForest classifier, we performed a grid search over the max number features used when splitting a node in the tree (sqrt($n$), log($n$) or $n$, where $n$ is the number of features in the model), and the number of trees (10, 100 or 1000, depending on the size of the feature set).
+
+When performing tuning on the MaxEnt classifier with the bag of words features set, F-score improved from $0.5622$, using the default settings (C-value = 1), to $0.6123$, using the best C-value ($11.25$). The large increase in F-score after tuning leads us to perform tuning on every feature set we test.
+
 \paragraph{Features}
 Based on the enriched data set, as described above, we experiment with the following lexical, morphosyntactic and semantic feature types:
 \begin{description}
@@ -347,8 +384,7 @@ trigram and dependency triple features.
 Table \ref{tab:baseline} shows baseline results in terms of F-score
 for bag-of, bigram and trigram templates over lexical features (word
 form and lemma). The presented results constitute the best F-scores
-after tuning (which was only done on the MaxEnt classifier and the
-SVM, not on the random forest classifier), as discussed above. The
+after tuning, as discussed above. The
 overall best result came from the logistic regression classifier with
 the bag of word form feature set. Generally we see that feature sets
 containing bag of lexical features in some form outperform the
@@ -381,17 +417,128 @@ feature set experiments.
   \label{tab:baseline}
 \end{table*}
 
-Morphosyntactic features:
-- bag of, bigram, trigram of pos, deprel
-- combine with baseline
+\begin{table*}
+  \begin{center}
+    \begin{tabular}{lrrrrr}
+      \toprule
+      
+      & Lemma & POS & Dep & Synset & Brown\\ % POS er uPOS
+      \midrule
+      Bag of Features & $0.5902$ & $0.0018$   &  $0.0143$ & $0.4922$ & $0.4688$ \\ % Synset regular, Brown 3200
+      BoW + Bag of Features & $0.6278$ & $0.6071$ & $0.6185$ & $0.6176$ & $0.6145$\\ % Synset regular, Brown100
+      
+      \bottomrule
 
-Semantic features:
-- bag of, bigram, trigram of Brown, WordNet
-- combine with baseline
+    \end{tabular}
+  \end{center}
+  \caption{Results of bag of feature variations with different feature types. The results shown are the F-scores of each feature set after tuning, using the MaxEnt classifier.}
+  \label{tab:bagOfFeatures}
+\end{table*}
 
-Backoff: best of morphosyntactic and semantic?
 
-Combination of best from baseline, morphosyntactic and semantic
+Next, we add the different feature types. We first use the bag of features feature template, for each feature, both on its own, and in a feature set with bag of word forms. As seen in table \ref{tab:bagOfFeatures}, none of the feature types alone result in higher F-scores than bag of words. However, all feature types but the POS, combined with bag of words, perform better than bag of words alone, with the combination of bag of lemmas and bag of words performing best, with an F-score of $0.6278$.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{lrrrr}
+      \toprule
+      
+      & F-score \\
+      \midrule
+      Bag of words \& bigrams & $0.6376$ \\
+      Bag of words \& trigrams & $0.6180$ \\
+      Bag of words \& $n$-grams & $0.6337$ \\
+      \bottomrule
+
+    \end{tabular}
+  \end{center}
+  \caption{F-scores of the bag of words feature sets, combined with word form bigrams, trigrams or both (termed simply $n$-grams in the table).}
+  \label{tab:ngrams}
+\end{table}
+
+Now we test word form $n$-grams with bag of words. As seen in table \ref{tab:ngrams}, we test bag of words combined with the word form variants of bigrams, trigrams and both. The best result comes from bag of words with only bigrams, with an F-score of $0.6376$, closely followed by bag of words with both types of $n$-grams, which got an F-score of $0.6337$. When we combine the $n$-grams combinations with both bag of words and bag of features, we get a new best result from bag of words, bag of lemmas and both types of $n$-grams, which gets an F-score of $0.6656$.
+
+\begin{table*}
+  \begin{center}
+    \begin{tabular}{lrrrrrr}
+      \toprule
+      BoW, BoF \& & Lemma & POS & Dep & Synset & Brown\\
+      \midrule
+      Bigram + backoff & $0.6611$ & $0.6410$  & $0.6208$ & $0.6454$ & $0.6285$\\ % synset reg, b3200
+      Trigram + backoff & $0.6480$ & $0.6294$ & $0.6194$ & $0.6448$ & $0.6173$ \\ % synset reg, b320
+      $n$-gram + backoff & $0.6649$ & $0.6320$ & $0.6220$ & $0.6537$ & $0.6335$\\ % synset reg, b320
+      %Bigram + backoff, trigram & $\textbf{0.6649}$ & $0.6398$ & $0.6309$ & $0.6192$ \\
+      %Bigram, trigram + backoff & $\textbf{0.6649}$ & $0.6320$ & $\textbf{0.6368}$ & $\textbf{0.6220}$ \\
+      %Bigram + backoff, trigram + backoff & $0.6645$ & $0.6316$ & $0.6268$ & $0.6127$ \\
+      
+      \bottomrule
+
+    \end{tabular}
+  \end{center}
+  \caption{Bag of words, bag of features and different combinations of $n$-grams with feature backoff. Each backoff combination is the one that achieved the best result.}
+  \label{tab:ngrambackoff}
+\end{table*}
+
+Next we combine the results of bag of features, and $n$-grams, with $n$-gram feature backoffs. In table \ref{tab:ngrambackoff} we see that the lemma backoff consistently outperform the other feature types, but that even lemma backoff does not improve upon the result of including backoff features.
+
+
+\begin{table*}
+  \begin{center}
+    \begin{tabular}{lrrrrrr}
+      \toprule
+      
+      & w/o backoff & Lemma & POS & Tag & Synset & Brown\\
+      \midrule
+      Dependency triples w/ backoff  BoW & $0.6240$ &  $0.6224$ & $0.6298$ & $0.6135$ & $0.6234$ & $0.6299$  \\ % Synset regular og grand parent, Brown 320
+      Dependency triples w/ backoff BoW, BoL \& n-grams & $0.6586$ & $0.6507$ & $0.6547$ & $0.6536$ & $0.6516$ & $0.6504$\\ % Synset gp, Brown 1000
+      
+      \bottomrule
+
+    \end{tabular}
+  \end{center}
+  \caption{F-scores of the different feature backoffs from dependency triples.}
+  \label{tab:firsttriplebackoff}
+\end{table*}
+
+\begin{table*}
+  \begin{center}
+    \begin{tabular}{lrr}
+      \toprule
+      
+      
+      & BoW & Best\\
+      \midrule
+      w/o backoff & $0.6240$ & $0.6586$ \\
+      Lemma & $0.6224$ & $0.6507$ \\
+      POS & $0.6298$ & $0.6547$ \\ % uPOS, begge to
+      Dep \\
+      Synset & $0.6234$ & $0.6516$  \\ % 1. regular og granparent (de er like), 2. grand parent
+      Brown & $0.6299$ & $0.6504$ \\ % 1. Brown 320, 2. Brown 1000
+      
+      
+      
+      \bottomrule
+
+    \end{tabular}
+  \end{center}
+  \caption{BoW is BoW \& dep triples, Best is BoW, BoL, n-grams \& dep triples}
+  \label{tab:firsttriplebackoff}
+\end{table*}
+
+Add dependency triples, add dependency backoff, no improvement. Construct final model, no improvement.
+
+
+%% Morphosyntactic features:
+%% - bag of, bigram, trigram of pos, deprel
+%% - combine with baseline
+
+%% Semantic features:
+%% - bag of, bigram, trigram of Brown, WordNet
+%% - combine with baseline
+
+%% Backoff: best of morphosyntactic and semantic?
+
+%% Combination of best from baseline, morphosyntactic and semantic
 
 Held-out
 
