@@ -230,23 +230,27 @@ empty line indicates the end of a comment. The sentences are annotated
 with a number indicating whether they contain a \tov{} (1), or not
 (0).
 
-\begin{figure*}
+\begin{figure}
 \begin{verbatim}
 timpa666
-1    and i will kill every fucking muslim and arab!
+1    and i will kill every
+     fucking muslim and arab!
 
 NimsXdimensions
 0    Need a solution?
-1    Drop one good ol' nuke on that black toilet in Mecca.
+1    Drop one good ol' nuke on
+     that black toilet in Mecca.
 
 Ammar Alozaibi
-1    Funny, We will conquer you all in just few years, U will be
-     my slave and your women will be my Sex Toy in Bed.
+1    Funny, We will conquer you
+     all in just few years, U will
+     be my slave and your women
+     will be my Sex Toy in Bed.
 
 \end{verbatim}
 \caption{Examples of comments from the data set.}
 \label{fig:comments}
-\end{figure*}
+\end{figure}
 
 \section{Experiments}
 \label{sec:exp}
@@ -395,12 +399,12 @@ of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$,
 using the MaxEnt classifier after tuning. We will also be
 using only the MaxEnt classifier for the remainder of the
 feature set experiments.
-\begin{table*}
+\begin{table}
   \begin{center}
     \begin{tabular}{lrrr}
       \toprule
 
-      & MaxEnt & SVM & Random Forest \\
+      & MaxEnt & SVM & RF \\
       \midrule
       Bag of word forms & $\textbf{0.6123}$ & $\textbf{0.6068}$ & $\textbf{0.5918}$ \\ % SVM bag of words er bare best dersom word form + uPOS ikke er med i tabellen
       Bag of lemmas & $0.5902$ & $0.5982$ & $0.5856$ \\
@@ -413,9 +417,9 @@ feature set experiments.
       % Source/printFirstPassResults.py
     \end{tabular}
   \end{center}
-  \caption{Results for baseline system; F-score for bag-of, bigram and trigram templates over lexical features (word form and lemma).}
+  \caption{Results for baseline system; F-score for bag-of, bigram and trigram templates over lexical features (word form and lemma). MaxEnt is the MaximumEntropy classifier, SVM is the support vector machine, and RF is the RandomForest classifier.}
   \label{tab:baseline}
-\end{table*}
+\end{table}
 
 \begin{table*}
   \begin{center}
@@ -500,7 +504,7 @@ Next we combine the results of bag of features, and $n$-grams, with $n$-gram fea
   \label{tab:firsttriplebackoff}
 \end{table*}
 
-\begin{table*}
+\begin{table}
   \begin{center}
     \begin{tabular}{lrr}
       \toprule
@@ -523,7 +527,7 @@ Next we combine the results of bag of features, and $n$-grams, with $n$-gram fea
   \end{center}
   \caption{BoW is BoW \& dep triples, Best is BoW, BoL, n-grams \& dep triples}
   \label{tab:firsttriplebackoff}
-\end{table*}
+\end{table}
 
 Add dependency triples, add dependency backoff, no improvement. Construct final model, no improvement.
 
