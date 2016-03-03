@@ -61,6 +61,14 @@ Nelleke Oostdijk and Hans van Halteren.
 \newblock In {\em {Proceedings of IEEE/ACM International Conference on Advances
   in Social Networks Analysis and Mining}}, Niagara, Canada. ACM.
 
+\bibitem[\protect\citename{Pedregosa \bgroup et al.\egroup }2011]{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
+\newblock 2011.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock {\em Journal of Machine Learning Research}, 12:2825--2830.
+
 \bibitem[\protect\citename{Petrov \bgroup et al.\egroup }2012]{Pet:Das:McD:12}
 Slav Petrov, Dipanjan Das, and Ryan McDonald.
 \newblock 2012.
@@ -82,12 +90,5 @@ William Warner and Julia Hirschberg.
 \newblock Detecting hate speech on the world wide web.
 \newblock In {\em {Proceedings of the Second Workshop on Language in Social
   Media}}, pages 19--26. Association for Computational Linguistics.
-
-\bibitem[\protect\citename{YouTube}2013]{youtube2013}
-YouTube.
-\newblock 2013.
-\newblock We hear you: Better commenting coming to {YouTube}.
-\newblock youtube-global.blogspot.no/2013/09/youtube-new-comments.html/.
-\newblock [Online; accessed May 12th 2015].
 
 \end{thebibliography}

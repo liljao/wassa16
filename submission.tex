@@ -16,6 +16,8 @@
 
 \usepackage{xytree} % Dependency tree
 \usepackage{fancyvrb} % Comments verbatim
+\usepackage{fixltx2e} % For subscript i tekst (F_1 measure)
+\usepackage{enumitem} % Kompakt liste
 
 
 %\naaclfinalcopy % Uncomment this line for the final submission
@@ -49,6 +51,7 @@
 % \author{Author 1 \and ... \and Author n \\
 %         Address line \\ ... \\ Address line}
 % if the names do not fit well on one line use
+
 %         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
 % For authors from different institutions:
 % \author{Author 1 \\ Address line \\  ... \\ Address line
@@ -211,7 +214,7 @@ comments, doubly annotated for evaluation.
   %&   &   &   \\
   \toprule
   
-  & Commments  & Sentences  & Users posting \\
+  & Comments  & Sentences  & Users posting \\
   \midrule
 	
   
@@ -227,8 +230,7 @@ comments, doubly annotated for evaluation.
 
 %to-do: should we anonymize the user names?
 Figure \ref{fig:comments} provides some examples of comments containing
-\tovs{} taken from the data set. The first line is the username or
-name, and the subsequent lines are the sentences of the comment. An
+\tovs{} taken from the data set. The first line is the annonymized username, and the subsequent lines are the sentences of the comment. An
 empty line indicates the end of a comment. The sentences are annotated
 with a number indicating whether they contain a \tov{} (1), or not
 (0).
@@ -236,19 +238,13 @@ with a number indicating whether they contain a \tov{} (1), or not
 \begin{figure}
 \begin{Verbatim}[fontsize=\small]
 User #44
-1    and i will kill every
-     fucking muslim and arab!
+1    and i will kill every fucking
+     muslim and arab!
 
 User #88
 0    Need a solution?
-1    Drop one good ol' nuke on
-     that black toilet in Mecca.
-
-User #138
-1    Funny, We will conquer you
-     all in just few years, U will
-     be my slave and your women
-     will be my Sex Toy in Bed.
+1    Drop one good ol' nuke on that
+     black toilet in Mecca.
 \end{Verbatim}
 \caption{Examples of comments from the data set.}
 \label{fig:comments}
@@ -317,51 +313,76 @@ synset.
 
 
 
-\begin{figure*}
-  \begin{center}
+%% \begin{figure*}
+%%   \begin{center}
 
-    \xytext{
-      \xybarnode{i} &~~~&
-      \xybarnode{m}
-      \xybarconnect(UL,U){-2}"_{\small nsubj}"
-      \xybarconnect[21](UR,U){12}"^{\small punct}"
-      \xybarconnect[15](UR,UL){6}"^{\small conj}"
-      \xybarconnect[9](UR,U){4}"^{\small acomp}"
-      &~~~&
-      \xybarnode{fucking} &~~~&
-      \xybarnode{scared}
-      \xybarconnect(UL,U){-2}"_{\small amod}"
-      &~~~&
-      \xybarnode{kill}
-      \xybarconnect[9](U,U){4}"^{\small advmod}"
-      \xybarconnect(UR,U){2}"^{\small dobj}"
-      &~~~&
-      \xybarnode{them}
-      &~~~&
-      \xybarnode{d}
-      &~~~&
-      \xybarnode{:}
-    }
-    \caption{A visual representation of the dependency graph of our example sentence.}
-    \label{fig:dependencygraph}
-  \end{center}
-\end{figure*}
+%%     \xytext{
+%%       \xybarnode{i} &~~~&
+%%       \xybarnode{m}
+%%       \xybarconnect(UL,U){-2}"_{\small nsubj}"
+%%       \xybarconnect[21](UR,U){12}"^{\small punct}"
+%%       \xybarconnect[15](UR,UL){6}"^{\small conj}"
+%%       \xybarconnect[9](UR,U){4}"^{\small acomp}"
+%%       &~~~&
+%%       \xybarnode{fucking} &~~~&
+%%       \xybarnode{scared}
+%%       \xybarconnect(UL,U){-2}"_{\small amod}"
+%%       &~~~&
+%%       \xybarnode{kill}
+%%       \xybarconnect[9](U,U){4}"^{\small advmod}"
+%%       \xybarconnect(UR,U){2}"^{\small dobj}"
+%%       &~~~&
+%%       \xybarnode{them}
+%%       &~~~&
+%%       \xybarnode{d}
+%%       &~~~&
+%%       \xybarnode{:}
+%%     }
+%%     \caption{A visual representation of the dependency graph of our example sentence.}
+%%     \label{fig:dependencygraph}
+%%   \end{center}
+%% \end{figure*}
 
 \paragraph{Classifiers}
-Toolkits and references
-\paragraph{Tuning}
-When tuning each model, we aimed to maximize the F-score of the model. In the MaxEnt classifier and SVM we tuned the C-value, which for both classifiers is the inverse of regularization strength. When tuning these classifiers, we started with C-values from 1 to 150 in 10-value increments, selected the best performing C-value and repeated the process with ever decreasing increments, with the range of C-values centered on the best performing C-value thus far. After 6 iterations, we terminate the tuning, and select the best performing C-value. When tuning the RandomForest classifier, we performed a grid search over the max number features used when splitting a node in the tree (sqrt($n$), log($n$) or $n$, where $n$ is the number of features in the model), and the number of trees (10, 100 or 1000, depending on the size of the feature set).
 
-When performing tuning on the MaxEnt classifier with the bag of words features set, F-score improved from $0.5622$, using the default settings (C-value = 1), to $0.6123$, using the best C-value ($11.25$). The large increase in F-score after tuning leads us to perform tuning on every feature set we test.
+We will test three different classifiers in our development testing; a Maximum Entropy (MaxEnt) classifier, a Support Vector Machine (SVM), and a RandomForest classifier (RF). \newcite{scikit-learn} describes scikit-learn, the Python module we use for our classification.
+
+\paragraph{Tuning}
+When tuning each model, we aimed to maximize the F-score of the model. In the MaxEnt classifier and SVM we tuned the C-value, which for both classifiers is the inverse of regularization strength. When tuning these classifiers, we started with C-values from 1 to 150 in 10-value increments, selected the best performing C-value and repeated the process with ever decreasing increments, with the range of C-values centered on the best performing C-value thus far. After 6 iterations, we terminate the tuning, and select the best performing C-value. When tuning the RandomForest classifier, we performed a grid search over the maximum number of features used when splitting a node in the tree (sqrt($n$), log($n$) or $n$, where $n$ is the number of features in the model), and the number of trees (10, 100 or 1000, depending on the size of the feature set).
+
+When performing tuning on the MaxEnt classifier with the bag of words features set, F-score improved from $0.5622$, using the default settings (C-value=1), to $0.6123$, using the best C-value ($11.25$). The large increase in F-score after tuning leads us to perform tuning on every feature set we test.
 
 \paragraph{Features}
 Based on the enriched data set, as described above, we experiment with the following lexical, morphosyntactic and semantic feature types:
-\begin{description}
-\setlength\itemsep{0em}
-\item[Lexical] word form, lemma
-\item[Morphosyntactic] Penn Treebank (PTB) or Universal (uPOS) PoS and Dependency Relation
-\item[Semantic] Brown cluster label (100, 320, 1000 and 3200 clusters) and WordNet synset, parent synset and grandparent synset
-\end{description}
+
+\begin{itemize}[noitemsep]
+\item Lexical:
+  \begin{itemize}[noitemsep]
+  \item Word form
+  \item Lemma
+  \end{itemize}
+  
+\item Morphosyntactic:
+  \begin{itemize}[noitemsep]
+  \item Penn Treebank (PTB) POS
+  \item Universal (uPOS) PoS
+  \item Dependency Relation
+  \end{itemize}
+  
+\item Semantic:
+  \begin{itemize}[noitemsep]
+    \item Brown cluster label (100, 320, 1000 and 3200 clusters)
+    \item WordNet synset, parent synset and grandparent synset
+  \end{itemize}
+\end{itemize}
+
+
+%% \begin{description}
+%% \setlength\itemsep{0em}
+%% \item[Lexical] word form, lemma
+%% \item[Morphosyntactic] Penn Treebank (PTB) or Universal (uPOS) PoS and Dependency Relation
+%% \item[Semantic] Brown cluster label (100, 320, 1000 and 3200 clusters) and WordNet synset, parent synset and grandparent synset
+%% \end{description}
 These features are structured according to a set of \emph{feature
   templates}, which introduce varying degrees of linear order and
 syntactic context: bag-of-features (unordered), bigrams, trigrams and
@@ -386,21 +407,13 @@ forms like $<$kill, dobj, them$>$ would thus be generalized to
 $<$VERB, dobj, them$>$ using \emph{head-backoff} and $<$kill, dobj,
 PRON$>$ using \emph{modifier-backoff}. We apply backoff to bigram,
 trigram and dependency triple features.
+
+
+
 \subsection{Development results}
-Table \ref{tab:baseline} shows baseline results in terms of F-score
-for bag-of, bigram and trigram templates over lexical features (word
-form and lemma). The presented results constitute the best F-scores
-after tuning, as discussed above. The
-overall best result came from the logistic regression classifier with
-the bag of word form feature set. Generally we see that feature sets
-containing bag of lexical features in some form outperform the
-$n$-gram feature sets.
-The feature set we will use as a baseline in the next stage of our
-experiments is bag of word forms. The feature set recieved an F-score
-of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$,
-using the MaxEnt classifier after tuning. We will also be
-using only the MaxEnt classifier for the remainder of the
-feature set experiments.
+
+During development, we first select a baseline system, consisting of a feature set of lexical features (word forms and lemmas) and a classifier, that we will compare the other results to. Next, we will test different combinations of the lexical feature sets from the baseline. We will then introduce more linguistic features, both morphosyntactic and semantic, as bags of features, and as backoff from word form $n$-grams. Lastly we will evaluate the inclusion of dependency triples, using both word form triples, and dependency triples with feature backoff.
+
 \begin{table}
   \begin{center}
     \begin{tabular}{lrrr}
@@ -423,15 +436,38 @@ feature set experiments.
   \label{tab:baseline}
 \end{table}
 
-\begin{table*}
+Table \ref{tab:baseline} shows baseline results in terms of F-score for bag-of, bigram and trigram templates over lexical features (word form and lemma) for the three different classifiers. The presented results constitute the best F-scores after tuning, as discussed above. The overall best result came from the MaxEnt classifier with the bag of word form feature set. Generally, we see that feature sets containing bag of lexical features in some form outperform the $n$-gram feature sets. The feature set we will use as a baseline in the next stage of our experiments is bag of word forms. The feature set recieved an F-score of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$, using the MaxEnt classifier after tuning. We will also be using only the MaxEnt classifier for the remainder of the feature set experiments.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{lrrr}
+      \toprule
+      
+      $n$-gram combination & BoW & BoW \& BoL \\
+      \midrule
+      no $n$-grams & $0.6123$ & $0.6278$ \\
+      bigrams & $\textbf{0.6376}$ & $0.6577$ \\
+      trigrams & $0.6180$ & $0.6453$ \\
+      $n$-grams & $0.6337$ & $\textbf{0.6656}$ \\
+      \bottomrule
+
+    \end{tabular}
+  \end{center}
+  \caption{F-scores of the bag of words feature sets, combined with word form bigrams, trigrams or both (termed simply $n$-grams in the table).}
+  \label{tab:ngrams}
+  % tidligere Tabell 4
+\end{table}
+
+\begin{table}
   \begin{center}
     \begin{tabular}{lrrrrr}
       \toprule
       
-      & Lemma & POS & Dep & Synset & Brown\\ % POS er uPOS
+     & POS\textsubscript{Lex} & Dep\textsubscript{Lex} & Synset & Brown\\ % POS er uPOS
       \midrule
-      Bag of Features & $0.5902$ & $0.0018$   &  $0.0143$ & $0.4922$ & $0.4688$ \\ % Synset regular, Brown 3200
-      BoW + Bag of Features & $0.6278$ & $0.6071$ & $0.6185$ & $0.6176$ & $0.6145$\\ % Synset regular, Brown100
+      BoF & $0.6018$ & $0.5655$ & $0.4922$ & $0.4688$ \\ % Synset regular, Brown 3200
+      %% BoF & $0.0018$  &  $0.0143$ & $0.4922$ & $0.4688$ \\ % Synset regular, Brown 3200
+      BoW+BoF & $0.6071$ & $0.6185$ & $0.6176$ & $0.6145$\\ % Synset regular, Brown100
       
       \bottomrule
 
@@ -439,40 +475,38 @@ feature set experiments.
   \end{center}
   \caption{Results of bag of feature variations with different feature types. The results shown are the F-scores of each feature set after tuning, using the MaxEnt classifier.}
   \label{tab:bagOfFeatures}
-\end{table*}
+  % tidligere Tabell 3
+\end{table}
+
+
+
+Now we test word form $n$-grams with bag of lexical features. As seen in table \ref{tab:ngrams}, we test bag of words alone, and bag of words with bag of lemmas, combined with the word form variants of bigrams, trigrams and both. The best result without bag of lemmas comes from bag of words with only bigrams, with an F-score of $0.6376$, closely followed by bag of words with both types of $n$-grams, which got an F-score of $0.6337$. The best overall result, by far, came from the combination of bag of words, bag of lemmas, and both types of $n$-grams, which got an F-score of $0.6656$.
 
 
 Next, we add the different feature types. We first use the bag of features feature template, for each feature, both on its own, and in a feature set with bag of word forms. As seen in table \ref{tab:bagOfFeatures}, none of the feature types alone result in higher F-scores than bag of words. However, all feature types but the POS, combined with bag of words, perform better than bag of words alone, with the combination of bag of lemmas and bag of words performing best, with an F-score of $0.6278$.
 
 \begin{table}
   \begin{center}
-    \begin{tabular}{lrrrr}
-      \toprule
-      
-      & F-score \\
-      \midrule
-      Bag of words \& bigrams & $0.6376$ \\
-      Bag of words \& trigrams & $0.6180$ \\
-      Bag of words \& $n$-grams & $0.6337$ \\
-      \bottomrule
-
-    \end{tabular}
-  \end{center}
-  \caption{F-scores of the bag of words feature sets, combined with word form bigrams, trigrams or both (termed simply $n$-grams in the table).}
-  \label{tab:ngrams}
-\end{table}
-
-Now we test word form $n$-grams with bag of words. As seen in table \ref{tab:ngrams}, we test bag of words combined with the word form variants of bigrams, trigrams and both. The best result comes from bag of words with only bigrams, with an F-score of $0.6376$, closely followed by bag of words with both types of $n$-grams, which got an F-score of $0.6337$. When we combine the $n$-grams combinations with both bag of words and bag of features, we get a new best result from bag of words, bag of lemmas and both types of $n$-grams, which gets an F-score of $0.6656$.
-
-\begin{table*}
-  \begin{center}
     \begin{tabular}{lrrrrrr}
       \toprule
-      BoW, BoF \& & Lemma & POS & Dep & Synset & Brown\\
+      %% BoW, BoF \& 
+      %% & Lemma & POS & Dep & Synset & Brown\\
+      %% \midrule
+      %% Bigram + backoff
+      %%  \\ % synset reg, b3200
+      %% Trigram + backoff
+      %%  \\ % synset reg, b320
+      %% $n$-gram + backoff 
+      %% \\ % synset reg, b320
+
+      & bigram+ & trigram+ & $n$-gram+ \\
       \midrule
-      Bigram + backoff & $0.6611$ & $0.6410$  & $0.6208$ & $0.6454$ & $0.6285$\\ % synset reg, b3200
-      Trigram + backoff & $0.6480$ & $0.6294$ & $0.6194$ & $0.6448$ & $0.6173$ \\ % synset reg, b320
-      $n$-gram + backoff & $0.6649$ & $0.6320$ & $0.6220$ & $0.6537$ & $0.6335$\\ % synset reg, b320
+      Lemma & $0.6611$ & $0.6480$ &  $\textbf{0.6649}$ \\ 
+      POS & $\textbf{0.6410}$ & $0.6294$ & $0.6320$ \\
+      Dep & $0.6208$ & $0.6194$ & $\textbf{0.6220}$ \\
+      Synset & $0.6454$ & $0.6448$ &  $\textbf{0.6537}$\\
+      Brown & $0.6285$ &  $0.6173$  & $\textbf{0.6335}$\\
+      
       %Bigram + backoff, trigram & $\textbf{0.6649}$ & $0.6398$ & $0.6309$ & $0.6192$ \\
       %Bigram, trigram + backoff & $\textbf{0.6649}$ & $0.6320$ & $\textbf{0.6368}$ & $\textbf{0.6220}$ \\
       %Bigram + backoff, trigram + backoff & $0.6645$ & $0.6316$ & $0.6268$ & $0.6127$ \\
@@ -483,28 +517,9 @@ Now we test word form $n$-grams with bag of words. As seen in table \ref{tab:ngr
   \end{center}
   \caption{Bag of words, bag of features and different combinations of $n$-grams with feature backoff. Each backoff combination is the one that achieved the best result.}
   \label{tab:ngrambackoff}
-\end{table*}
+\end{table}
 
 Next we combine the results of bag of features, and $n$-grams, with $n$-gram feature backoffs. In table \ref{tab:ngrambackoff} we see that the lemma backoff consistently outperform the other feature types, but that even lemma backoff does not improve upon the result of including backoff features.
-
-
-\begin{table*}
-  \begin{center}
-    \begin{tabular}{lrrrrrr}
-      \toprule
-      
-      & w/o backoff & Lemma & POS & Tag & Synset & Brown\\
-      \midrule
-      Dependency triples w/ backoff  BoW & $0.6240$ &  $0.6224$ & $0.6298$ & $0.6135$ & $0.6234$ & $0.6299$  \\ % Synset regular og grand parent, Brown 320
-      Dependency triples w/ backoff BoW, BoL \& n-grams & $0.6586$ & $0.6507$ & $0.6547$ & $0.6536$ & $0.6516$ & $0.6504$\\ % Synset gp, Brown 1000
-      
-      \bottomrule
-
-    \end{tabular}
-  \end{center}
-  \caption{F-scores of the different feature backoffs from dependency triples.}
-  \label{tab:firsttriplebackoff}
-\end{table*}
 
 \begin{table}
   \begin{center}
@@ -512,12 +527,11 @@ Next we combine the results of bag of features, and $n$-grams, with $n$-gram fea
       \toprule
       
       
-      & BoW & Best\\
+      Dependency backoff & Simple & Combined\\
       \midrule
-      w/o backoff & $0.6240$ & $0.6586$ \\
+      w/o backoff & $0.6240$ & $\textbf{0.6586}$ \\
       Lemma & $0.6224$ & $0.6507$ \\
-      POS & $0.6298$ & $0.6547$ \\ % uPOS, begge to
-      Dep \\
+      POS & $\textbf{0.6298}$ & $0.6547$ \\ % uPOS, begge to
       Synset & $0.6234$ & $0.6516$  \\ % 1. regular og granparent (de er like), 2. grand parent
       Brown & $0.6299$ & $0.6504$ \\ % 1. Brown 320, 2. Brown 1000
       
@@ -527,11 +541,15 @@ Next we combine the results of bag of features, and $n$-grams, with $n$-gram fea
 
     \end{tabular}
   \end{center}
-  \caption{BoW is BoW \& dep triples, Best is BoW, BoL, n-grams \& dep triples}
-  \label{tab:firsttriplebackoff}
+  \caption{Simple is the feature set containing Bag of Words and dependency triples. Combined is the feature set containing Bag of Words, bag of Lemmas, bigrams, trigrams and dependency triples. Each row backs off to a different feature type.}
+  \label{tab:depbackoff}
 \end{table}
 
-Add dependency triples, add dependency backoff, no improvement. Construct final model, no improvement.
+Lastly, we will test the addition of dependency triples to our models. We add dependency triples consisting of word forms, both alone, and in conjunction with feature backoffs. As with $n$-gram backoff, we test multiple variations of backoff, both head-backoff and modifier-backoff. The results reported are the backoff variant that acheived the best results. As seen in  table \ref{tab:depbackoff}, the inclusion of word form dependency triples improved upon the simplest model, with an F-score of $0.6240$, compared to $0.6123$ for bag of words alone. Dependency triples did not, however, improve upon the results achieved by our best model, as the model with dependency triples got an F-score of $0.6586$ compared to our best result of $0.6656$.
+
+The addition of backoff also did not improve upon our best model. Adding POS backoff to our simplest model resulted in a slightly increased F-score of $0.6298$. Adding backoff to our combined model, however, only resulted in poorer F-scores, with the best feature backoff (also POS) resulting in an F-score of $0.6547$.
+
+Our final model is the model consisting of bag of word forms, bag of lemmas, and word form bigrams and trigrams, which got the best result, with an F-score of $0.6656$. In subsection \ref{sec:heldout} we will also test that same model with the addition of bigram backoff to lemmas, which got an F-score of $0.6649$.
 
 
 %% Morphosyntactic features:
@@ -546,11 +564,61 @@ Add dependency triples, add dependency backoff, no improvement. Construct final 
 
 %% Combination of best from baseline, morphosyntactic and semantic
 
-Held-out
-
 \subsection{Error analysis}
 
+Before we perform our held-out testing, we will examine what types of errors we have in our model, when tested on the development set. Our best model is the feature sets containing bag of words, bag of lemmas, and word form bigrams and trigrams. As seen in table \ref{tab:positives}, our classification of the development set using the best model resulted in $646$ true positives, $192$ false positives, and $457$ false negatives. This results in a precision of $0.7709$, and a recall of $0.5857$. Compared with our baseline system, which had a precision of $0.6777$, and a recall of $0.5585$, we see that the majority of the improvement over the baseline comes from the increase in precision.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{llrr}
+      \toprule
+      
+      & & Actual & \\
+      &  & Positive & Negative\\
+      \midrule
+      Predicted & Positive & $646$ & $192$ \\
+      & Negative & $457$ & $21,663$ \\
+      
+      
+      \bottomrule
+
+    \end{tabular}
+  \end{center}
+  \caption{The true and false, positives and negatives of our best model, when classifying the development set. The numbers are the sum of each of the 10 classification, when performing 10-fold cross-validation.}
+  \label{tab:positives}
+\end{table}
+
+When reviewing a random subsample of the false positives and false negatives, we see that the noisy data has caused some problems for the preprocessor. Another source of errors, specifically false positives, are comments which use multiple typically threatening words in a non-threatening context.
+
 \subsection{Held-out results}
+\label{sec:heldout}
+
+We performed our final testing on the held-out test set using the baseline feature set, the combined feature set, and the combined features set with trigram backoff using lemma features. As seen in table \ref{tab:heldout}, the both the best feature set, and the second best, from our development testing outperformed the baseline feature set. The best feature set from development also outperformed the second best. The difference in F-score was not as large as in our development testing, however. This may be due to the fact that the baseline performed a lot better in the held-out testing compared to the development testing, with an F-score of $0.6562$. The F-scores of the combined feature sets were $0.6860$ and $0.6799$. In fact, both the combined feature sets improved upon the baseline in both precision, recall and F-scores.
+
+
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{lrrr}
+      \toprule
+      
+      & Precision & Recall & F-score\\
+      \midrule
+      Baseline & $0.7325$ & $0.5943$ & $0.6562$ \\
+      Combined & $0.7532$ & $0.6299$ & $0.6860$  \\
+      Combined+ & $0.7703$ & $0.6085$ & $0.6799$ \\
+      
+      
+      \bottomrule
+
+    \end{tabular}
+  \end{center}
+  \caption{Precision, recall and F-score for the baseline feature set, the best feature set, and the best backoff feature set, when classification is performed on the held-out test set.}
+  \label{tab:heldout}
+\end{table}
+
+
+
 
 \section{Conclusion}
 \label{sec:disc}

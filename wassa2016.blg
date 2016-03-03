@@ -1,0 +1,5 @@
+[0] biber-darwin:197> INFO - This is biber 0.9.3
+[0] biber-darwin:198> INFO - Logfile is 'wassa2016.blg'
+[1] biber-darwin:205> INFO - === Biber version 0.9.3
+[1] biber-darwin:206> INFO - === Thu Mar  3, 2016, 23:36:02
+[323] Biber.pm:213> FATAL - Cannot find control file 'wassa2016.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
