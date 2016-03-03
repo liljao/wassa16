@@ -292,19 +292,20 @@ synset.
 
 \begin{figure*}
 \begin{center}
-\begin{dependency}[arc edge, text only label, theme=simple]
+\begin{dependency}
+%\begin{dependency}[arc edge, text only label, theme=simple]
   \begin{deptext}[column sep=.2cm]
     i \& m \& fucking \& scared \& kill \& them \& d \& : \\
    \tag{\smaller pron} \& \tag{\smaller verb} \& \tag{\smaller verb} \& \tag{\smaller adj} \& \tag{\smaller verb} \& \tag{\smaller pron} \& \tag{\smaller x} \& \tag{\smaller punct} \\
   \end{deptext}
   \depedge{2}{1}{\large nsubj}
-  \depedge{2}{8}{\large punct}
+  \depedge[edge unit distance=2ex]{2}{8}{\large punct}
   \depedge{2}{4}{\large acomp}
   \depedge{4}{3}{\large amod}
   \depedge{2}{5}{\large conj}
   \depedge{5}{6}{\large dobj}
   \depedge{5}{7}{\large advmod}
-  \deproot[edge unit distance=1.5ex]{2}{}
+ \deproot{2}{root}
 \end{dependency}
 \caption{Dependency parse of example sentence from the data set, with assigned uPOS tags.}
 \label{fig:dep}
@@ -313,35 +314,35 @@ synset.
 
 
 
-\begin{figure*}
-  \begin{center}
+%% \begin{figure*}
+%%   \begin{center}
 
-    \xytext{
-      \xybarnode{i} &~~~&
-      \xybarnode{m}
-      \xybarconnect(UL,U){-2}"_{\small nsubj}"
-      \xybarconnect[21](UR,U){12}"^{\small punct}"
-      \xybarconnect[15](UR,UL){6}"^{\small conj}"
-      \xybarconnect[9](UR,U){4}"^{\small acomp}"
-      &~~~&
-      \xybarnode{fucking} &~~~&
-      \xybarnode{scared}
-      \xybarconnect(UL,U){-2}"_{\small amod}"
-      &~~~&
-      \xybarnode{kill}
-      \xybarconnect[9](U,U){4}"^{\small advmod}"
-      \xybarconnect(UR,U){2}"^{\small dobj}"
-      &~~~&
-      \xybarnode{them}
-      &~~~&
-      \xybarnode{d}
-      &~~~&
-      \xybarnode{:}
-    }
-    \caption{A visual representation of the dependency graph of our example sentence.}
-    \label{fig:dependencygraph}
-  \end{center}
-\end{figure*}
+%%     \xytext{
+%%       \xybarnode{i} &~~~&
+%%       \xybarnode{m}
+%%       \xybarconnect(UL,U){-2}"_{\small nsubj}"
+%%       \xybarconnect[21](UR,U){12}"^{\small punct}"
+%%       \xybarconnect[15](UR,UL){6}"^{\small conj}"
+%%       \xybarconnect[9](UR,U){4}"^{\small acomp}"
+%%       &~~~&
+%%       \xybarnode{fucking} &~~~&
+%%       \xybarnode{scared}
+%%       \xybarconnect(UL,U){-2}"_{\small amod}"
+%%       &~~~&
+%%       \xybarnode{kill}
+%%       \xybarconnect[9](U,U){4}"^{\small advmod}"
+%%       \xybarconnect(UR,U){2}"^{\small dobj}"
+%%       &~~~&
+%%       \xybarnode{them}
+%%       &~~~&
+%%       \xybarnode{d}
+%%       &~~~&
+%%       \xybarnode{:}
+%%     }
+%%     \caption{A visual representation of the dependency graph of our example sentence.}
+%%     \label{fig:dependencygraph}
+%%   \end{center}
+%% \end{figure*}
 
 \paragraph{Classifiers}
 Toolkits and references
