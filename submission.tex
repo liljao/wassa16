@@ -116,70 +116,66 @@ threats of violence in text, however, there is previous work which
 examines other types of closely related phenomena, such as
 cyberbullying and hate-speech.
 
-\newcite{dinakar2011} proposes a method for the detection of
+\newcite{dinakar2011} propose a method for the detection of
 cyberbullying by targeting combinations of profane or negative words,
 and words related to several predetermined sensitive topics. Their
 data set consists of over 50,000 YouTube comments taken from videos
-about controversial topics. They adopt a two-stage approach, where the
-first stage consists of using a lexicon of negative words and a list
-of profane words, as well as part-of-speech tags from the training
-data that were correlated with bullying. The second stage is
-category-specific, and makes use of commonly observed uni- and bigrams
-from each category as features. The experiments reported accuracies
-from 63~\% to 80~\%, but did not report precision or recall.
+about controversial topics. %% They adopt a two-stage approach, where the
+%% first stage consists of using a lexicon of negative words and a list
+%% of profane words, as well as part-of-speech tags from the training
+%% data that were correlated with bullying. The second stage is
+%% category-specific, and makes use of commonly observed uni- and bigrams
+%% from each category as features.
+The experiments reported accuracies from 63~\% to 80~\%, but did not
+report precision or recall.
 % lists of negative and profane words
 % correlated words from training data
 
 There has been quite a bit of work focused on the detection of threats
-in a data set of Dutch tweets \cite{nellngram2013,nellshallow2013}.
-The data set used for these experiments consists of a collection of 5000
-threatening tweets collected by a website over a period of about two
-years. In addition, a large number of random tweets were collected for
-development and testing. A set of 2.3 million random tweets was used
-for development, and a set of 1 million was used for testing. 
+in a data set of Dutch tweets \cite{nellngram2013,nellshallow2013}, which consists of a collection of 5000
+threatening tweets collected by a website. In addition, a large number of random tweets were collected for
+development and testing. %% A set of 2.3 million random tweets was used
+%% for development, and a set of 1 million was used for testing.
 The system relies on manually constructed recognition patterns, in the
-form of n-grams (uni-, bi- and trigrams, as well as skip bi- and
-trigrams), but do not go into detail about the methods used to
-construct these patterns, stating that the researchers relied on their
-(linguistic) intuition as speakers of Dutch \cite{nellngram2013}. In
+form of n-grams 
+%(uni-, bi- and trigrams, as well as skip bi- and trigrams)
+, but do not go into detail about the methods used to
+construct these patterns%% , stating that the researchers relied on their
+%% (linguistic) intuition as speakers of Dutch \cite{nellngram2013}
+. In
 \newcite{nellshallow2013}, a manually crafted shallow parser is added
 to the system. This improves results to a precision of 39\% and a
-recall of 59\% \footnote{Perhaps a footnote on the peculiarities of the evaluation??}.
+recall of 59\%.
 % handcrafted patterns
 % rule-based shallow parser
 % dubious evaluation
 
-\newcite{warner2012} present a method for detecting unwanted or
-illegal comments in user-generated web text from the internet, which
-relies on machine learning in combination with template-based
-features. The data set used in the research came from two sources. The
-first consists of posts from Yahoo news groups, the second were
-webpages collected by the American Jewish Congress that had been
-identified as offensive. The data set was manually annotated, and then
-the hate speech was assigned to a category, such as anti-Semitic,
-anti-woman, anti-Asian, etc. The task is then approached as a
-word-sense disambiguation task, since the same words can be used in
-both hateful and non-hateful contexts. The features used in the
-classification were combinations of uni-, bi- and trigrams,
-part-of-speech-tags and Brown clusters.  The best results of the
-classifications were obtained using only unigrams as features, with a
-precision of 67~\% and a recall of 60~\%. The other feature sets
-garnered much lower results, and the authors suggest that deeper
+\newcite{warner2012} present a method for detecting hate speech in
+user-generated web text from the internet, which relies on machine
+learning in combination with template-based features. The task
+is approached as a word-sense disambiguation task, since the same
+words can be used in both hateful and non-hateful contexts. The
+features used in the classification were combinations of uni-, bi- and
+trigrams, part-of-speech-tags and Brown clusters.  The best results of
+the classifications were obtained using only unigrams as features,
+with a precision of 67~\% and a recall of 60~\%. The other feature
+sets garnered much lower results, and the authors suggest that deeper
 parsing could reveal significant phrase patterns.
 % only unigrams best results
 % suggests parsing might help
 
-\newcite{hammer2014} reports an experiment on the data set that we
-will be using in our own experiments, although it has been changed
-slightly since the publication of his initial study. The method used a
-logistic LASSO regression analysis on bigrams (skip-grams) of
-important words to classify sentences as \tovs{} or not.
-The method described in the article uses a set of important words that
-are correlated with threats of violence. The features are bigrams of
-two of these important words observed in the same sentence. The
-article does not describe exactly how these important words were
-selected, stating only that words were chosen that were significantly
-correlated with the response (violent/non-violent sentence). Results are reported only in terms of proportion of false positives for the two classes and it is not clear how the data was split for training and evaluation.
+Perhaps closest to the current work is the work of
+\newcite{hammer2014}, who reports on an experiment on the same data set that
+we will be using in our own experiments. The method uses a logistic
+LASSO regression analysis on bigrams (skip-grams) of important words
+to classify sentences as \tovs{} or not.  The system makes use of a
+list of words that are correlated with threats of violence. The
+article does not, however, describe exactly how these important words
+were selected, stating only that words were chosen that were
+significantly correlated with the response (violent/non-violent
+sentence). Results are reported only in terms of proportion of false
+positives for the two classes and it is not clear how the data was
+split for training and evaluation, which makes it difficult to compare with their results.
 
 
 \section{The YouTube threat data set}
@@ -292,19 +288,20 @@ synset.
 
 \begin{figure*}
 \begin{center}
-\begin{dependency}[arc edge, text only label, theme=simple]
+\begin{dependency}
+%\begin{dependency}[arc edge, text only label, theme=simple]
   \begin{deptext}[column sep=.2cm]
     i \& m \& fucking \& scared \& kill \& them \& d \& : \\
    \tag{\smaller pron} \& \tag{\smaller verb} \& \tag{\smaller verb} \& \tag{\smaller adj} \& \tag{\smaller verb} \& \tag{\smaller pron} \& \tag{\smaller x} \& \tag{\smaller punct} \\
   \end{deptext}
   \depedge{2}{1}{\large nsubj}
-  \depedge{2}{8}{\large punct}
+  \depedge[edge unit distance=2ex]{2}{8}{\large punct}
   \depedge{2}{4}{\large acomp}
   \depedge{4}{3}{\large amod}
   \depedge{2}{5}{\large conj}
   \depedge{5}{6}{\large dobj}
   \depedge{5}{7}{\large advmod}
-  \deproot[edge unit distance=1.5ex]{2}{}
+ \deproot{2}{root}
 \end{dependency}
 \caption{Dependency parse of example sentence from the data set, with assigned uPOS tags.}
 \label{fig:dep}
