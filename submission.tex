@@ -3,6 +3,7 @@
 %
 
 \documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
 \usepackage{naaclhlt2016}
 \usepackage{times}
 \usepackage{latexsym}
@@ -20,7 +21,7 @@
 \usepackage{enumitem} % Kompakt liste
 
 
-%\naaclfinalcopy % Uncomment this line for the final submission
+\naaclfinalcopy % Uncomment this line for the final submission
 \def\naaclpaperid{***} %  Enter the naacl Paper ID here
 
 \newcommand{\tov}{threat of violence}
@@ -49,8 +50,8 @@
 
 % Author information can be set in various styles:
 % For several authors from the same institution:
-% \author{Author 1 \and ... \and Author n \\
-%         Address line \\ ... \\ Address line}
+\author{Aksel Wester \and Lilja Øvrelid \and Erik Velldal \\
+        University of Oslo \\ ... \\ Address line}
 % if the names do not fit well on one line use
 
 %         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
@@ -66,17 +67,23 @@
 % If the title and author information does not fit in the area allocated,
 % place \setlength\titlebox{<new height>} right after
 % at the top, where <new height> can be something larger than 2.25in
-\author{Author 1\\
-	    XYZ Company\\
-	    111 Anywhere Street\\
-	    Mytown, NY 10000, USA\\
-	    {\tt author1@xyz.org}
-	  \And
-	Author 2\\
-  	ABC University\\
-  	900 Main Street\\
-  	Ourcity, PQ, Canada A1A 1T2\\
-  {\tt author2@abc.ca}}
+%% \author{Aksel Wester\\
+%%   University of Oslo\\
+%%   111 Anywhere Street\\
+%%   Mytown, NY 10000, USA\\
+%%   {\tt aksellw@ifi.uio.no}
+%%   \And
+%%   Lilja Øvrelid\\
+%%   University of Oslo\\
+%%   900 Main Street\\
+%%   Ourcity, PQ, Canada A1A 1T2\\
+%%   {\tt liljao@ifi.uio.no}
+%%   \And
+%%   Erik Velldal\\
+%%   University of Oslo\\
+%%   900 Main Street\\
+%%   Ourcity, PQ, Canada A1A 1T2\\
+%%   {\tt erikve@ifi.uio.no}}
 
 \date{}
 
@@ -85,126 +92,62 @@
 \maketitle
 
 \begin{abstract}
-This article investigates the effect of various types of linguistic
-features (lexical, morphosyntactic and lexical semantic) for the task of
-detecting threats of violence in a data set of YouTube comments. It
-further examines the use of these features in combination with
-different representations of linguistic context, and feature backoff. Our results show that combinations of lexical features outperform the use of more complex syntactic and semantic features for this task.
+This article investigates the effect of various types of linguistic features (lexical, morphosyntactic and lexical semantic) for the task of detecting threats of violence in a corpus of YouTube comments. It further examines the use of these features in combination with different representations of linguistic context, and feature backoff. Our results show that combinations of lexical features outperform the use of more complex syntactic and semantic features for this task.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
-Threats of violence constitute an increasingly common occurrence in online
-discussions. It disproportionally affects women and minorities, often
-to the point of effectively eliminating them from taking part in
-discussions online. Moderators of social networks operate on such a
-large scale that manually reading all posts is an insurmountable
-task. Methods for automatically detecting threats could therefore
-potentially be very helpful, both to moderators of social networks,
-and to the members of those networks.
+Threats of violence constitute an increasingly common occurrence in online discussions. It disproportionally affects women and minorities, often to the point of effectively eliminating them from taking part in discussions online. Moderators of social networks operate on such a large scale that manually reading all posts is an insurmountable task. Methods for automatically detecting threats could therefore potentially be very helpful, both to moderators of social networks, and to the members of those networks.
 
-In this article, we evaluate different types of features for the task
-of detecting threats of violence in YouTube comments. We draw on both
-lexical, morphosyntactic and lexical semantic information sources and
-experiment with different machine learning algorithms. Our results
-indicate that successful detection of threats of violence is largely
-determined by lexical information.
+In this article, we evaluate different types of features for the task of detecting threats of violence in YouTube comments. We draw on both lexical, morphosyntactic and lexical semantic information sources and experiment with different machine learning algorithms. Our results indicate that successful detection of threats of violence is largely determined by lexical information.
 
 \section{Previous work}
 \label{sec:prev}
-There is little previous work specifically devoted to the detection of
-threats of violence in text, however, there is previous work which
-examines other types of closely related phenomena, such as
-cyberbullying and hate-speech.
+There is little previous work specifically devoted to the detection of threats of violence in text, however, there is previous work which examines other types of closely related phenomena, such as cyberbullying and hate-speech.
 
-\newcite{dinakar2011} propose a method for the detection of
-cyberbullying by targeting combinations of profane or negative words,
-and words related to several predetermined sensitive topics. Their
-data set consists of over 50,000 YouTube comments taken from videos
-about controversial topics. %% They adopt a two-stage approach, where the
+\newcite{dinakar2011} propose a method for the detection of cyberbullying by targeting combinations of profane or negative words, and words related to several predetermined sensitive topics. Their data set consists of over 50,000 YouTube comments taken from videos about controversial topics. %% They adopt a two-stage approach, where the
 %% first stage consists of using a lexicon of negative words and a list
 %% of profane words, as well as part-of-speech tags from the training
 %% data that were correlated with bullying. The second stage is
 %% category-specific, and makes use of commonly observed uni- and bigrams
 %% from each category as features.
-The experiments reported accuracies from 0.63 to 0.80, but did not
-report precision or recall.
+The experiments reported accuracies from 0.63 to 0.80, but did not report precision or recall.
 % lists of negative and profane words
 % correlated words from training data
 
-There has been quite a bit of work focused on the detection of threats
-in a data set of Dutch tweets \cite{nellngram2013,nellshallow2013}, which consists of a collection of 5000
-threatening tweets collected by a website. In addition, a large number of random tweets were collected for
-development and testing. %% A set of 2.3 million random tweets was used
+There has been quite a bit of work focused on the detection of threats in a data set of Dutch tweets \cite{nellngram2013,nellshallow2013}, which consists of a collection of 5000 threatening tweets collected by a website. In addition, a large number of random tweets were collected for development and testing. %% A set of 2.3 million random tweets was used
 %% for development, and a set of 1 million was used for testing.
-The system relies on manually constructed recognition patterns, in the
-form of n-grams 
+The system relies on manually constructed recognition patterns, in the form of n-grams 
 %(uni-, bi- and trigrams, as well as skip bi- and trigrams)
-, but do not go into detail about the methods used to
-construct these patterns%% , stating that the researchers relied on their
+, but do not go into detail about the methods used to construct these patterns%% , stating that the researchers relied on their
 %% (linguistic) intuition as speakers of Dutch \cite{nellngram2013}
-. In
-\newcite{nellshallow2013}, a manually crafted shallow parser is added
-to the system. This improves results to a precision of 0.39 and a
-recall of 0.59.
+. In \newcite{nellshallow2013}, a manually crafted shallow parser is added to the system. This improves results to a precision of 0.39 and a recall of 0.59.
 % handcrafted patterns
 % rule-based shallow parser
 % dubious evaluation
 
-\newcite{warner2012} present a method for detecting hate speech in
-user-generated web text from the internet, which relies on machine
-learning in combination with template-based features. The task
-is approached as a word-sense disambiguation task, since the same
-words can be used in both hateful and non-hateful contexts. The
-features used in the classification were combinations of uni-, bi- and
-trigrams, part-of-speech-tags and Brown clusters.  The best results of
-the classifications were obtained using only unigrams as features,
-with a precision of 0.67 and a recall of 0.60. The other feature
-sets garnered much lower results, and the authors suggest that deeper
-parsing could reveal significant phrase patterns.
+\newcite{warner2012} present a method for detecting hate speech in user-generated web text from the internet, which relies on machine learning in combination with template-based features. The task is approached as a word-sense disambiguation task, since the same words can be used in both hateful and non-hateful contexts. The features used in the classification were combinations of uni-, bi- and trigrams, part-of-speech-tags and Brown clusters.  The best results of the classifications were obtained using only unigrams as features, with a precision of 0.67 and a recall of 0.60. The other feature sets garnered much lower results, and the authors suggest that deeper parsing could reveal significant phrase patterns.
 % only unigrams best results
 % suggests parsing might help
 
-Perhaps closest to the current work is the work of
-\newcite{hammer2014}, which reports on an experiment on the same data set that
-we will be using in our own experiments. The method uses a logistic
-LASSO regression analysis on bigrams (skip-grams) of important words
-to classify sentences as either \tovs{} or not.  The system makes use of a
-list of words that are correlated with threats of violence. The
-article does not, however, describe exactly how these important words
-were selected, stating only that words were chosen that were
-significantly correlated with the response (violent/non-violent
-sentence). Results are reported only in terms of proportion of false
-positives for the two classes, and it is not clear how the data was
-split for training and evaluation. This makes it difficult to compare our results to those of \newcite{hammer2014}.
+Perhaps closest to the current work is the work of \newcite{hammer2014}, which reports on an experiment on the same corpus that we will be using in our own experiments. The method uses a logistic LASSO regression analysis on bigrams (skip-grams) of important words to classify sentences as either \tovs{} or not.  The system makes use of a list of words that are correlated with threats of violence. The article does not, however, describe exactly how these important words were selected, stating only that words were chosen that were significantly correlated with the response (violent/non-violent sentence). Results are reported only in terms of proportion of false positives for the two classes, and it is not clear how the data was split for training and evaluation. This makes it difficult to compare our results to those of \newcite{hammer2014}.
 
 
-\section{The YouTube threat data set}
+\section{The YouTube threat corpus}
 \label{sec:data}
-The YouTube threat data set is comprised of user-written comments from
-eight different YouTube videos \cite{hammer2014}. A comment
-consists of a set of sentences, each of them manually annotated to be
-either a \tov{} (or support for a \tov{}), or not. The data set
-furthermore records the username
+The YouTube threat corpus is comprised of user-written comments from eight different YouTube videos \cite{hammer2014}. A comment consists of a set of sentences, each of them manually annotated to be either a \tov{} (or support for a \tov{}), or not. The corpus furthermore records the username
 %% \footnote{In 2013, YouTube changed its
 %%   commenting system from using unique usernames, to using "real
 %%   names", like Facebook and other sites \cite{youtube2013}. Some
 %%   accounts, however, did not provide real names, so they continue to
 %%   only be identified by their usernames.}
-  of the user that posted the
-comment. The eight videos that the comments were posted to cover religious and political topics like halal slaughter, immigration,
-Anders Behring Breivik, Jihad, etc. \cite{hammer2014}. 
+  of the user that posted the comment. The eight videos that the comments were posted to cover religious and political topics like halal slaughter, immigration, Anders Behring Breivik, Jihad, etc. \cite{hammer2014}. 
 %The videos cover slightly different topics, the videos all contain the same
 %type of discussions, namely of xenophobia and racism.
 
-The data set consists of 9,845 comments, comprised of 28,643
-sentences, see Table \ref{tab:dataset}.
+The corpus consists of 9,845 comments, comprised of 28,643 sentences, see Table \ref{tab:dataset}.
 %% In total there are 402,673 tokens in the sentences in the data set.
-There are 1,285 comments
-containing threats, and 1,384 sentences containing threats, as seen in
-Table \ref{tab:dataset}.  \newcite{hammer2014} reports inter-annotator
-agreement on this data set to be 98~\%, as calculated on 120 of the
-comments, doubly annotated for evaluation.
+There are 1,285 comments containing threats, and 1,384 sentences containing threats, as seen in Table \ref{tab:dataset}.  \newcite{hammer2014} reports inter-annotator agreement on this data set to be 98~\%, as calculated on 120 of the comments, doubly annotated for evaluation.
 
 \begin{table}
 \begin{center}
@@ -227,12 +170,8 @@ comments, doubly annotated for evaluation.
 \end{table}
 
 %to-do: should we anonymize the user names?
-Figure \ref{fig:comments} provides some examples of comments containing
-\tovs{} taken from the data set. The first line is the annonymized username, and the subsequent lines are the sentences of the comment.
-%% An empty line indicates the end of a comment.
-The sentences are annotated
-with a number indicating whether they contain a \tov{} (1), or not
-(0).
+Figure \ref{fig:comments} provides some examples of comments containing \tovs{} taken from the corpus. The first line is the annonymized username, and the subsequent lines are the sentences of the comment. %% An empty line indicates the end of a comment.
+The sentences are annotated with a number indicating whether they contain a \tov{} (1), or not (0).
 
 \begin{figure}
 \begin{Verbatim}[fontsize=\small]
@@ -245,49 +184,22 @@ User #88
 1    Drop one good ol' nuke on that
      black toilet in Mecca.
 \end{Verbatim}
-\caption{Examples of comments from the data set.}
+\caption{Examples of comments from the YouTube threat corpus.}
 \label{fig:comments}
 \end{figure}
 
 \section{Experiments}
 \label{sec:exp}
-Much of the previous work presented in Section \ref{sec:prev} made use of
-precompiled lists of correlated words and manually crafted
-patterns. Whereas these resources can be effective, they are highly
-task-specific and do not easily lend themselves to replication.  The
-previous work further highlights the effectiveness of lexical features
-(word-based features), however, several of the authors suggest that parsing
-may be beneficial for these tasks.
+Much of the previous work presented in Section \ref{sec:prev} made use of precompiled lists of correlated words and manually crafted patterns. Whereas these resources can be effective, they are highly task-specific and do not easily lend themselves to replication.  The previous work further highlights the effectiveness of lexical features (word-based features), however, several of the authors suggest that parsing may be beneficial for these tasks.
 
-In this work we experiment with a wide range of linguistic features in our system and investigate the introduction of
-linguistic context through a set of feature templates. We also
-generalize these features through a backoff technique. Throughout, we
-make use of resources and tools that are freely available and reusable in order
-to construct our system.
+In this work we experiment with a wide range of linguistic features in our system and investigate the introduction of linguistic context through a set of feature templates. We also generalize these features through a backoff technique. Throughout, we make use of resources and tools that are freely available and reusable in order to construct our system.
 
 
 \subsection{Experimental setup}
 
-\paragraph{Pre-processing}Since threat annotation is performed on the sentence level, the data
-set has been manually split into sentences as part of the annotation
-process.  We performed tokenization, lemmatization, PoS-tagging and
-dependency parsing using the SpaCy
-toolkit\footnote{https://spacy.io/}.  SpaCy assigns both the standard
-Penn Treebank PoS-tags \cite{Mar:San:Mar:93}, as well as the more
-coarse-grained Universal PoS tag set of \newcite{Pet:Das:McD:12}. The
-dependency parser assigns an analysis in compliance with the ClearNLP
-converter \cite{Cho:Pal:12}, see Figure \ref{fig:dep} for an example
-dependency graph from the data set. The data set was further enriched
-with the cluster labels described in Turian et
-al.~\shortcite{Tur:Rat:Ben:10}, created using the Brown clustering
-algorithm \cite{Bro:deS:Mer:92} and induced from the RCV1 corpus, a
-corpus containing Reuters English newswire text.
+\paragraph{Pre-processing}Since threat annotation is performed on the sentence level, the corpus has been manually split into sentences as part of the annotation process.  We performed tokenization, lemmatization, PoS-tagging and dependency parsing using the SpaCy toolkit\footnote{https://spacy.io/}.  SpaCy assigns both the standard Penn Treebank PoS-tags \cite{Mar:San:Mar:93}, as well as the more coarse-grained Universal PoS tag set of \newcite{Pet:Das:McD:12}. The dependency parser assigns an analysis in compliance with the ClearNLP converter \cite{Cho:Pal:12}, see Figure \ref{fig:dep} for an example dependency graph from the corpus. The corpus was further enriched with the cluster labels described in Turian et al.~\shortcite{Tur:Rat:Ben:10}, created using the Brown clustering algorithm \cite{Bro:deS:Mer:92} and induced from the RCV1 corpus, a corpus containing Reuters English newswire text.
 %, with approximately 63 million words and 3.3 million sentences.
-We vary the number of
-clusters to be either 100, 320, 1000 or 3200 clusters and use the full
-cluster label.  We also make use of the WordNet resource
-\cite{wordnet} to determine a word's synset, parent and grandparent
-synset.
+We vary the number of clusters to be either 100, 320, 1000 or 3200 clusters and use the full cluster label.  We also make use of the WordNet resource \cite{wordnet} to determine a word's synset, parent and grandparent synset.
 
 %% \begin{figure*}
 %% \begin{center}
@@ -328,7 +240,7 @@ synset.
   \depedge{5}{7}{\large advmod}
  \deproot{2}{root}
 \end{dependency}
-\caption{Dependency parse of example sentence from the data set, with assigned uPOS tags.}
+\caption{Dependency parse of example sentence from the corpus, with assigned uPOS tags.}
 \label{fig:dep}
 \end{center}
 \end{figure}
@@ -376,7 +288,7 @@ When tuning each model, we aim to maximize the F-score of the model. In the MaxE
 %% When performing tuning on the MaxEnt classifier with the bag of words features set, F-score improved from $0.5622$, using the default settings (C-value=1), to $0.6123$, using the best C-value ($11.25$). The large increase in F-score after tuning leads us to perform tuning on every feature set we test.
 
 \paragraph{Features}
-Based on the enriched data set, as described above, we experiment with the following feature types:
+Based on the enriched corpus, as described above, we experiment with the following feature types:
 
 \begin{itemize}[noitemsep]
 \item Lexical:
@@ -406,12 +318,7 @@ Based on the enriched data set, as described above, we experiment with the follo
 %% \item[Morphosyntactic] Penn Treebank (PTB) or Universal (uPOS) PoS and Dependency Relation
 %% \item[Semantic] Brown cluster label (100, 320, 1000 and 3200 clusters) and WordNet synset, parent synset and grandparent synset
 %% \end{description}
-These features are structured according to a set of \emph{feature
-  templates}, which introduce varying degrees of linear order and
-syntactic context: bag-of-features (unordered), bigrams, trigrams and
-dependency triples. These feature templates are applied to the feature
-types presented above, in order to yield features like the following
-for our examples sentence in Figure \ref{fig:dep}:
+These features are structured according to a set of \emph{feature templates}, which introduce varying degrees of linear order and syntactic context: bag-of-features (unordered), bigrams, trigrams and dependency triples. These feature templates are applied to the feature types presented above, in order to yield features like the following for our examples sentence in Figure \ref{fig:dep}:
 
 \begin{itemize}
 \setlength\itemsep{0em}
@@ -419,16 +326,7 @@ for our examples sentence in Figure \ref{fig:dep}:
 
 \item Depdendency triples: \{$<$m, nsubj, i$>$, $<$root, root, m$>$, $<$scared, amod, fucking$>$, ... \}
 \end{itemize}
-Our lexical features are very specific and require the exact
-combination of two lexical items in order to apply to a new instance.
-Following \newcite{Jos:Pen:2009}, we therefore experiment with
-generalization of features by backoff to a more general category,
-e.g. from word form to lemma or PoS. A dependency triple over word
-forms like $<$kill, dobj, them$>$ would thus be generalized to
-$<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj,
-PRON$>$ using \emph{modifier-backoff}. We apply backoff to bigram,
-trigram and dependency triple features.
-
+Our lexical features are very specific and require the exact combination of two lexical items in order to apply to a new instance. Following \newcite{Jos:Pen:2009}, we therefore experiment with generalization of features by backoff to a more general category, e.g. from word form to lemma or PoS. A dependency triple over word forms like $<$kill, dobj, them$>$ would thus be generalized to $<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj, PRON$>$ using \emph{modifier-backoff}. We apply backoff to bigram, trigram and dependency triple features. 
 
 
 \subsection{Development results}
