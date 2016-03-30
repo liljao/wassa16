@@ -51,7 +51,10 @@
 % Author information can be set in various styles:
 % For several authors from the same institution:
 \author{Aksel Wester \and Lilja Øvrelid \and Erik Velldal \\
-        University of Oslo \\ ... \\ Address line}
+  Department of Informatics \\
+  University of Oslo, Norway \\
+  ... \\
+  \{aksellw, liljao, erikve\}@ifi.uio.no}
 % if the names do not fit well on one line use
 
 %         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
@@ -326,7 +329,9 @@ These features are structured according to a set of \emph{feature templates}, wh
 
 \item Depdendency triples: \{$<$m, nsubj, i$>$, $<$root, root, m$>$, $<$scared, amod, fucking$>$, ... \}
 \end{itemize}
-Our lexical features are very specific and require the exact combination of two lexical items in order to apply to a new instance. Following \newcite{Jos:Pen:2009}, we therefore experiment with generalization of features by backoff to a more general category, e.g. from word form to lemma or PoS. A dependency triple over word forms like $<$kill, dobj, them$>$ would thus be generalized to $<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj, PRON$>$ using \emph{modifier-backoff}. We apply backoff to bigram, trigram and dependency triple features. 
+Our lexical features are very specific and require the exact combination of two lexical items in order to apply to a new instance. Following \newcite{Jos:Pen:2009}, we therefore experiment with generalization of features by backoff to a more general category, e.g. from word form to lemma or PoS. A dependency triple over word forms like $<$kill, dobj, them$>$ would thus be generalized to $<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj, PRON$>$ using \emph{modifier-backoff}. We apply backoff to bigram, trigram and dependency triple features.
+
+We use a simple count-based feature reduction on the features in each feature set, where we include in the feature set only the features the appear at least twice in the training data.
 
 
 \subsection{Development results}
@@ -372,7 +377,7 @@ Table \ref{tab:baseline} shows baseline results in terms of F-score for bag-of l
 
     \end{tabular}
   \end{center}
-  \caption{F-scores of the bag of words, and bag of words and lemma feature sets, combined with word form bigrams, trigrams or both.}
+  \caption{F-scores of the bag of words feature set, with different combinations of the other feature sets tested in Table \ref{tab:baseline}.}
   \label{tab:ngrams}
   % tidligere Tabell 4
 \end{table}
@@ -392,7 +397,7 @@ Table \ref{tab:baseline} shows baseline results in terms of F-score for bag-of l
 
     \end{tabular}
   \end{center}
-  \caption{Results of bag of feature variations with different feature types. The results shown are the F-scores of each feature set after tuning, using the MaxEnt classifier.}
+  \caption{F-scores of bag of features (BoF) with and without bag of words (BoW). POS\textsubscript{Lex} and Dep\textsubscript{Lex} are lexicalized POS and dep-tags, respectively, where each feature is a tuple consisting of the tag and the word form of the token.}
   \label{tab:bagOfFeatures}
   % tidligere Tabell 3
 \end{table}
