@@ -144,19 +144,20 @@ Most closely related to the current paper is the work of \newcite{hammer2014}, r
 
 \section{The YouTube threat corpus}
 \label{sec:data}
-The YouTube threat corpus is comprised of user-written comments from eight different YouTube videos \cite{hammer2014}. A comment consists of a set of sentences, each of them manually annotated to be either a \tov{} (or support for a \tov{}), or not. The corpus furthermore records the username
+The YouTube threat corpus comprises user-written comments from eight different YouTube videos \cite{hammer2014}. The videos cover religious and political topics like halal slaughter, immigration, Anders Behring Breivik, Jihad, etc. \cite{hammer2014}. 
+%The videos cover slightly different topics, the videos all contain the same
+%type of discussions, namely of xenophobia and racism. 
+A given comment consists of a set of sentences, each of them manually annotated to be either a \tov{} (or support for a \tov{}), or not. The corpus also records the username
 %% \footnote{In 2013, YouTube changed its
 %%   commenting system from using unique usernames, to using "real
 %%   names", like Facebook and other sites \cite{youtube2013}. Some
 %%   accounts, however, did not provide real names, so they continue to
 %%   only be identified by their usernames.}
-  of the user that posted the comment. The eight videos that the comments were posted to cover religious and political topics like halal slaughter, immigration, Anders Behring Breivik, Jihad, etc. \cite{hammer2014}. 
-%The videos cover slightly different topics, the videos all contain the same
-%type of discussions, namely of xenophobia and racism.
+  of the comment author. 
 
-The corpus consists of 9,845 comments, comprised of 28,643 sentences, see Table \ref{tab:dataset}.
+As shown in Table~\ref{tab:dataset}, the corpus consists of 9,845 comments, comprising 28,643 sentences.
 %% In total there are 402,673 tokens in the sentences in the data set.
-There are 1,285 comments containing threats, and 1,384 sentences containing threats, as seen in Table \ref{tab:dataset}.  \newcite{hammer2014} reports inter-annotator agreement on this data set to be 98~\%, as calculated on 120 of the comments, doubly annotated for evaluation.
+There are 1,384 sentences containing threats, spread over 1,285 comments. \newcite{hammer2014} reports inter-annotator agreement on this data set to be 98~\%, as calculated on 120 of the comments, doubly annotated for evaluation.
 
 \begin{table}
   \begin{smaller}
@@ -181,8 +182,8 @@ There are 1,285 comments containing threats, and 1,384 sentences containing thre
 \end{table}
 
 %to-do: should we anonymize the user names?
-Figure \ref{fig:comments} provides some examples of comments containing \tovs{} taken from the corpus. The first line is the annonymized username, and the subsequent lines are the sentences of the comment. %% An empty line indicates the end of a comment.
-The sentences are annotated with a number indicating whether they contain a \tov{} (1), or not (0).
+Figure~\ref{fig:comments} provides some examples of comments containing \tovs{} taken from the corpus. The first line is the annonymized username, and the subsequent lines are the sentences of the comment. %% An empty line indicates the end of a comment.
+The sentences are annotated with a number indicating whether they contain a \tov{} (1) or not (0).
 
 \begin{figure}
 \begin{Verbatim}[fontsize=\small]
@@ -195,17 +196,16 @@ User #88
 1    Drop one good ol' nuke on that
      black toilet in Mecca.
 \end{Verbatim}
-\caption{Examples of comments from the YouTube threat corpus.}
+\caption{Example comments from the YouTube threat corpus.}
 \label{fig:comments}
 \end{figure}
 
 \section{Experiments}
 \label{sec:exp}
-Much of the previous work presented in Section \ref{sec:prev} made use of precompiled lists of correlated words and manually crafted patterns. Whereas these resources can be effective, they are highly task-specific and do not easily lend themselves to replication.  The previous work further highlights the effectiveness of lexical features (word-based features), however, several of the authors suggest that parsing may be beneficial for these tasks.
+Much of the previous related work presented in Section~\ref{sec:prev} made use of precompiled lists of correlated words and manually crafted patterns. Whereas these resources can be effective, they are highly task-specific and do not easily lend themselves to replication. Furthermore, while much of the previous work seem to highlight the effectiveness of lexical features, several of the authors also suggest that parsing may be beneficial for these tasks.
 
-In this work we experiment with a wide range of linguistic features in our system and investigate the introduction of linguistic context through a set of feature templates. 
-% fixme: det virker litt rart å skille mellom trekk og lingvistisk kontekst? 
-We also generalize these features through a backoff technique. Throughout, we make use of resources and tools that are freely available and reusable in order to construct our system.
+The approach followed in the current paper is to train a machine-learned model to automatically detect threaths, experimenting with a range of different sources of linguistic information for defining our feature templates. 
+We also generalize these features through a `backoff' technique. Throughout, we make use of resources and tools that are freely available and reusable.
 
 
 \subsection{Experimental setup}
