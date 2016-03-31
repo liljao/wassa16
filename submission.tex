@@ -45,7 +45,8 @@
 
 %todo: possibly a title that reflects the work better? 
 
-\title{Features for detecting threats of violence in YouTube comments}
+% \title{Features for detecting threats of violence in YouTube comments}
+\title{Threat detection in online discussions}
 %\title{Online threat detection}
 %\title{Threat detection for online comments}
 %\title{Detecting threats of violence in online comments}
@@ -98,18 +99,19 @@
 \maketitle
 
 \begin{abstract}
-This paper investigates the effect of various types of linguistic features (lexical, syntactic and semantic) for the task of detecting threats of violence in a corpus of YouTube comments. It further examines the use of these features in combination with different representations of linguistic context, and feature backoff. Our results show that combinations of lexical features outperform the use of more complex syntactic and semantic features for this task.
+This paper investigates the effect of various types of linguistic features (lexical, syntactic and semantic) for training classifiers to detect threats of violence in a corpus of YouTube comments. % It further examines the use of these features in combination with different representations of linguistic context, and feature backoff. 
+Our results show that combinations of lexical features outperform the use of more complex syntactic and semantic features for this task.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
-Threats of violence constitute an increasingly common occurrence in online discussions. It disproportionally affects women and minorities, often to the point of effectively eliminating them from taking part in discussions online. Moderators of social networks operate on such a large scale that manually reading all posts is an insurmountable task. Methods for automatically detecting threats could therefore potentially be very helpful, both to moderators of social networks, and to their members.
+Threats of violence constitute an increasingly common occurrence in online discussions. It disproportionally affects women and minorities, often to the point of effectively eliminating them from taking part in discussions online. Moderators of social networks operate on such a large scale that manually reading all posts is an insurmountable task. Methods for automatically detecting threats could therefore potentially be very helpful, both to moderators of social networks and to their members.
 
 In this article, we evaluate different types of features for the task of detecting threats of violence in YouTube comments. We draw on both lexical, morphosyntactic and lexical semantic information sources and experiment with different machine learning algorithms. Our results indicate that successful detection of threats of violence is largely determined by lexical information.
 
 \section{Previous work}
 \label{sec:prev}
-There is little previous work specifically devoted to the detection of threats of violence in text, however, there is previous work which examines other types of closely related phenomena, such as cyberbullying and hate-speech.
+There is little previous work specifically devoted to the detection of threats of violence in text. However, there is previous work which examines other types of closely related phenomena, such as cyberbullying and hate-speech.
 
 \newcite{dinakar2011} propose a method for the detection of cyberbullying by targeting combinations of profane or negative words, and words related to several predetermined sensitive topics. Their data set consists of over 50,000 YouTube comments taken from videos about controversial topics. %% They adopt a two-stage approach, where the
 %% first stage consists of using a lexicon of negative words and a list
@@ -126,18 +128,18 @@ In addition, a large number of random tweets were collected for development and 
 %% for development, and a set of 1 million was used for testing.
 The system relies on manually constructed recognition patterns in the form of n-grams, 
 %(uni-, bi- and trigrams, as well as skip bi- and trigrams)
-but details about the methods used to construct these patterns are not given.%% , stating that the researchers relied on their
+but details about the strategy used to construct these patterns are not given. %% , stating that the researchers relied on their
 %% (linguistic) intuition as speakers of Dutch \cite{nellngram2013}
 In \newcite{nellshallow2013}, a manually crafted shallow parser is added to the system. This improves results to a precision of 0.39 and a recall of 0.59.
 % handcrafted patterns
 % rule-based shallow parser
 % dubious evaluation
 
-\newcite{warner2012} present a method for detecting hate speech in user-generated web text from the internet, which relies on machine learning in combination with template-based features. The task is approached as a word-sense disambiguation task, since the same words can be used in both hateful and non-hateful contexts. The features used in the classification were combinations of uni-, bi- and trigrams, part-of-speech-tags and Brown clusters.  The best results of the classifications were obtained using only unigrams as features, with a precision of 0.67 and a recall of 0.60. The other feature sets garnered much lower results, and the authors suggest that deeper parsing could reveal significant phrase patterns.
+\newcite{warner2012} present a method for detecting hate speech in user-generated web text, which relies on machine learning in combination with template-based features. The task is approached as a word-sense disambiguation task, since the same words can be used in both hateful and non-hateful contexts. The features used in the classification were combinations of uni-, bi- and trigrams, part-of-speech-tags and Brown clusters.  The best results were obtained using only unigram features, with a precision of 0.67 and a recall of 0.60. The other feature sets garnered much lower results, and the authors suggest that deeper parsing could reveal significant phrase patterns.
 % only unigrams best results
 % suggests parsing might help
 
-Perhaps closest to the current work is the work of \newcite{hammer2014}, which reports on an experiment on the same corpus that we will be using in our own experiments. The method uses a logistic LASSO regression analysis on bigrams (skip-grams) of important words to classify sentences as either \tovs{} or not.  The system makes use of a list of words that are correlated with threats of violence. The article does not, however, describe exactly how these important words were selected, stating only that words were chosen that were significantly correlated with the response (violent/non-violent sentence). Results are reported only in terms of proportion of false positives for the two classes, and it is not clear how the data was split for training and evaluation. This makes it difficult to compare our results to those of \newcite{hammer2014}.
+Most closely related to the current paper is the work of \newcite{hammer2014}, reporting on experiments on (a previous version of) the same corpus as used here. The method uses a logistic LASSO regression analysis on bigrams (skip-grams) of important words to classify sentences as either \tovs{} or not.  The system makes use of a list of words that are correlated with threats of violence. The article does not, however, describe exactly how these important words were selected, stating only that words were chosen that were significantly correlated with the response (violent/non-violent sentence). Results are reported only in terms of proportion of false positives for the two classes, and it is not clear how the data was split for training and evaluation, making it difficult to directly compare our results to those of \newcite{hammer2014}.
 
 
 \section{The YouTube threat corpus}
