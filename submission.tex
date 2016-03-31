@@ -109,7 +109,7 @@ Threats of violence constitute an increasingly common occurrence in online discu
 
 In this article, we evaluate different types of features for the task of detecting threats of violence in YouTube comments. We draw on both lexical, morphosyntactic and lexical semantic information sources and experiment with different machine learning algorithms. Our results indicate that successful detection of threats of violence is largely determined by lexical information.
 
-\section{Previous work}
+\section{Related work}
 \label{sec:prev}
 There is little previous work specifically devoted to the detection of threats of violence in text. However, there is previous work which examines other types of closely related phenomena, such as cyberbullying and hate-speech.
 
@@ -144,16 +144,15 @@ Most closely related to the current paper is the work of \newcite{hammer2014}, r
 
 \section{The YouTube threat corpus}
 \label{sec:data}
-The YouTube threat corpus comprises user-written comments from eight different YouTube videos \cite{hammer2014}. The videos cover religious and political topics like halal slaughter, immigration, Anders Behring Breivik, Jihad, etc. \cite{hammer2014}. 
+The YouTube threat corpus\footnote{Please contact the authors if you want to obtain access to the corpus for your own research.} comprises user-written comments from eight different YouTube videos \cite{hammer2014}. The videos cover religious and political topics like halal slaughter, immigration, Anders Behring Breivik, Jihad, etc. 
 %The videos cover slightly different topics, the videos all contain the same
 %type of discussions, namely of xenophobia and racism. 
-A given comment consists of a set of sentences, each of them manually annotated to be either a \tov{} (or support for a \tov{}), or not. The corpus also records the username
+A given comment consists of a set of sentences, each of them manually annotated to be either a \tov{} (or support for a \tov{}), or not. The corpus also records usernames of the commenters.
 %% \footnote{In 2013, YouTube changed its
 %%   commenting system from using unique usernames, to using "real
 %%   names", like Facebook and other sites \cite{youtube2013}. Some
 %%   accounts, however, did not provide real names, so they continue to
 %%   only be identified by their usernames.}
-  of the comment author. 
 
 As shown in Table~\ref{tab:dataset}, the corpus consists of 9,845 comments, comprising 28,643 sentences.
 %% In total there are 402,673 tokens in the sentences in the data set.
@@ -182,7 +181,7 @@ There are 1,384 sentences containing threats, spread over 1,285 comments. \newci
 \end{table}
 
 %to-do: should we anonymize the user names?
-Figure~\ref{fig:comments} provides some examples of comments containing \tovs{} taken from the corpus. The first line is the annonymized username, and the subsequent lines are the sentences of the comment. %% An empty line indicates the end of a comment.
+Figure~\ref{fig:comments} provides some examples of comments from the corpus. The first line is the annonymized username, and the subsequent lines are the sentences of the comment. %% An empty line indicates the end of a comment.
 The sentences are annotated with a number indicating whether they contain a \tov{} (1) or not (0).
 
 \begin{figure}
@@ -204,15 +203,15 @@ User #88
 \label{sec:exp}
 Much of the previous related work presented in Section~\ref{sec:prev} made use of precompiled lists of correlated words and manually crafted patterns. Whereas these resources can be effective, they are highly task-specific and do not easily lend themselves to replication. Furthermore, while much of the previous work seem to highlight the effectiveness of lexical features, several of the authors also suggest that parsing may be beneficial for these tasks.
 
-The approach followed in the current paper is to train a machine-learned model to automatically detect threaths, experimenting with a range of different sources of linguistic information for defining our feature templates. 
+The approach followed in the current paper is to train a machine-learned model to automatically detect threaths. We experiment with a range of different sources of linguistic information for defining our feature templates. 
 We also generalize these features through a `backoff' technique. Throughout, we make use of resources and tools that are freely available and reusable.
 
 
 \subsection{Experimental setup}
 
-\paragraph{Pre-processing}Since threat annotation is performed on the sentence level, the corpus has been manually split into sentences as part of the annotation process.  We performed tokenization, lemmatization, PoS-tagging and dependency parsing using the SpaCy toolkit\footnote{https://spacy.io/}.  SpaCy assigns both the standard Penn Treebank PoS-tags \cite{Mar:San:Mar:93}, as well as the more coarse-grained Universal PoS tag set of \newcite{Pet:Das:McD:12}. The dependency parser assigns an analysis in compliance with the ClearNLP converter \cite{Cho:Pal:12}, see Figure \ref{fig:dep} for an example dependency graph from the corpus. The corpus was further enriched with the cluster labels described in Turian et al.~\shortcite{Tur:Rat:Ben:10}, created using the Brown clustering algorithm \cite{Bro:deS:Mer:92} and induced from the RCV1 corpus, a corpus containing Reuters English newswire text.
+\paragraph{Pre-processing}Since threat annotation is performed on the sentence level, the corpus has been manually split into sentences as part of the annotation process.  We performed tokenization, lemmatization, PoS-tagging and dependency parsing using the spaCy NLP toolkit. SpaCy assigns both the standard Penn Treebank PoS-tags \cite{Mar:San:Mar:93}, as well as the more coarse-grained Universal PoS tag set of \newcite{Pet:Das:McD:12}. The dependency parser assigns an analysis in compliance with the ClearNLP converter \cite{Cho:Pal:12}, see Figure~\ref{fig:dep} for an example dependency graph from the corpus. The corpus was further enriched with the cluster labels described in Turian et al.~\shortcite{Tur:Rat:Ben:10}, created using the Brown clustering algorithm \cite{Bro:deS:Mer:92} and induced from the Reuters corpus of English newswire text (RCV1).
 %, with approximately 63 million words and 3.3 million sentences.
-We vary the number of clusters to be either 100, 320, 1000 or 3200 clusters and use the full cluster label.  We also make use of the WordNet resource \cite{wordnet} to determine a word's synset, parent and grandparent synset.
+We vary the number of clusters to be either 100, 320, 1000 or 3200 clusters and use the full cluster label.  We also make use of the WordNet resource \cite{wordnet} to include information about the synset of a word, as well as its parent and grandparent synsets.
 
 %% \begin{figure*}
 %% \begin{center}
@@ -292,16 +291,16 @@ We vary the number of clusters to be either 100, 320, 1000 or 3200 clusters and 
 
 \paragraph{Classifiers}
 
-We test three different classifiers in our development testing; a Maximum Entropy (MaxEnt) classifier, a Support Vector Machine (SVM), and a Random Forest classifier (RF).  We approach the task as a binary classification task, and we use scikit-learn \cite{scikit-learn} for our classification.
+We test three different classification frameworks in our development testing: Maximum Entropy (MaxEnt), Support Vector Machines (SVM), and Random Forests (RF).  We approach the task as a binary classification task, using the implementations found in the scikit-learn toolkit \cite{scikit-learn}.
 
 \paragraph{Tuning}
-When tuning each model, we aim to maximize the F-score of the model. In the MaxEnt classifier and SVM we tune the C-value, which for both classifiers is the inverse of regularization strength. When tuning these classifiers, we start with C-values from 1 to 150 in 10-value increments, select the best performing C-value and repeat the process with ever-decreasing increments, with the range of C-values centered on the best performing C-value thus far. After 6 iterations, we terminate the tuning, and select the best performing C-value. When tuning the Random Forest classifier, we perform a grid search over the maximum number of features used when splitting a node in the tree (sqrt($n$), log($n$) or $n$, where $n$ is the number of features in the model), and the number of trees (10, 100 or 1000, depending on the size of the feature set). In the following experiments, we perform tuning on all feature sets.
+When tuning each model, we aim to maximize the F-score. For the MaxEnt and SVM classifiers we tune the regularization parameter (C), where a smaller value corresponds to stronger regularization. When tuning these classifiers, we start with C-values from 1 to 150 in 10-value increments, select the best performing C-value and repeat the process with decreasing increments, with the range of C-values centered on the best performing C-value thus far. After 6 iterations, we terminate the tuning, and select the best performing C-value. When tuning the Random Forest classifier, we perform a grid search over the maximum number of features used when splitting a node in the tree (sqrt($n$), log($n$) or $n$, where $n$ is the number of features in the model), and the number of trees (10, 100 or 1000, depending on the size of the feature set). In the following experiments, we perform tuning on all feature sets.
 
 % TODO: Ta med siste setning, om at vi alltid tuner
 %% When performing tuning on the MaxEnt classifier with the bag of words features set, F-score improved from $0.5622$, using the default settings (C-value=1), to $0.6123$, using the best C-value ($11.25$). The large increase in F-score after tuning leads us to perform tuning on every feature set we test.
 
 \paragraph{Features}
-Based on the enriched corpus, as described above, we experiment with the following feature types:
+Based on the enriched corpus, as described above, we experiment with the following sources of information for defining our features:
 
 \begin{itemize}[noitemsep]
 \item Lexical:
@@ -324,7 +323,6 @@ Based on the enriched corpus, as described above, we experiment with the followi
   \end{itemize}
 \end{itemize}
 
-
 %% \begin{description}
 %% \setlength\itemsep{0em}
 %% \item[Lexical] word form, lemma
@@ -341,7 +339,7 @@ These features are structured according to a set of \emph{feature templates}, wh
 \end{itemize}
 Our lexical features are very specific and require the exact combination of two lexical items in order to apply to a new instance. Following \newcite{Jos:Pen:2009}, we therefore experiment with generalizing features by `backing off' to a more general category, e.g., from word form to lemma or PoS. For example, a dependency triple over word forms like $<$kill, dobj, them$>$ would thus be generalized to $<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj, PRON$>$ using \emph{modifier-backoff}. These additional backoff features are included for bigrams and trigrams as well as dependency triples.
 
-We use a simple count-based feature reduction on the features in each feature set, where we include in the feature set only the features the appear at least twice in the training data.
+We impose a simple count-based reduction of the feature set; only features appearing at least twice in the training data are included in the model.
 
 
 \subsection{Development results}
