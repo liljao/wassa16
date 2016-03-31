@@ -105,13 +105,13 @@ Our results show that combinations of lexical features outperform the use of mor
 
 \section{Introduction}
 \label{sec:intro}
-Threats of violence constitute an increasingly common occurrence in online discussions. It disproportionally affects women and minorities, often to the point of effectively eliminating them from taking part in discussions online. Moderators of social networks operate on such a large scale that manually reading all posts is an insurmountable task. Methods for automatically detecting threats could therefore potentially be very helpful, both to moderators of social networks and to their members.
+Threats of violence constitute an increasingly common occurrence in online discussions. It disproportionately affects women and minorities, often to the point of effectively eliminating them from taking part in discussions online. Moderators of social networks operate on such a large scale that manually reading all posts is an insurmountable task. Methods for automatically detecting threats could therefore potentially be very helpful, both to moderators of social networks and to their members.
 
 In this article, we evaluate different types of features for the task of detecting threats of violence in YouTube comments. We draw on both lexical, morphosyntactic and lexical semantic information sources and experiment with different machine learning algorithms. Our results indicate that successful detection of threats of violence is largely determined by lexical information.
 
 \section{Related work}
 \label{sec:prev}
-There is little previous work specifically devoted to the detection of threats of violence in text. However, there is previous work which examines other types of closely related phenomena, such as cyberbullying and hate-speech.
+There is little previous work specifically devoted to the detection of threats of violence in text. However, there is previous work which examines other types of closely related phenomena, such as `cyberbullying' and hate-speech.
 
 \newcite{dinakar2011} propose a method for the detection of cyberbullying by targeting combinations of profane or negative words, and words related to several predetermined sensitive topics. Their data set consists of over 50,000 YouTube comments taken from videos about controversial topics. %% They adopt a two-stage approach, where the
 %% first stage consists of using a lexicon of negative words and a list
@@ -126,7 +126,7 @@ The experiments reported accuracies from 0.63 to 0.80, but did not report precis
 There has been quite a bit of work focused on the detection of threats in a data set of Dutch tweets \cite{nellngram2013,nellshallow2013}, which consists of a collection of 5000 threatening tweets. % collected by a website. 
 In addition, a large number of random tweets were collected for development and testing. %% A set of 2.3 million random tweets was used
 %% for development, and a set of 1 million was used for testing.
-The system relies on manually constructed recognition patterns in the form of n-grams, 
+The system relies on manually constructed recognition patterns in the form of $n$-grams, 
 %(uni-, bi- and trigrams, as well as skip bi- and trigrams)
 but details about the strategy used to construct these patterns are not given. %% , stating that the researchers relied on their
 %% (linguistic) intuition as speakers of Dutch \cite{nellngram2013}
@@ -181,7 +181,7 @@ There are 1,384 sentences containing threats, spread over 1,285 comments. \newci
 \end{table}
 
 %to-do: should we anonymize the user names?
-Figure~\ref{fig:comments} provides some examples of comments from the corpus. The first line is the annonymized username, and the subsequent lines are the sentences of the comment. %% An empty line indicates the end of a comment.
+Figure~\ref{fig:comments} provides some examples of comments from the corpus. The first line is the anonymized username, and the subsequent lines are the sentences of the comment. %% An empty line indicates the end of a comment.
 The sentences are annotated with a number indicating whether they contain a \tov{} (1) or not (0).
 
 \begin{figure}
@@ -201,15 +201,15 @@ User #88
 
 \section{Experiments}
 \label{sec:exp}
-Much of the previous related work presented in Section~\ref{sec:prev} made use of precompiled lists of correlated words and manually crafted patterns. Whereas these resources can be effective, they are highly task-specific and do not easily lend themselves to replication. Furthermore, while much of the previous work seem to highlight the effectiveness of lexical features, several of the authors also suggest that parsing may be beneficial for these tasks.
+Much of the previous related work presented in Section~\ref{sec:prev} made use of pre-compiled lists of correlated words and manually crafted patterns. Whereas these resources can be effective, they are highly task-specific and do not easily lend themselves to replication. Furthermore, while much of the previous work seem to highlight the effectiveness of lexical features, several of the authors also suggest that parsing may be beneficial for these tasks.
 
-The approach followed in the current paper is to train a machine-learned model to automatically detect threaths. We experiment with a range of different sources of linguistic information for defining our feature templates. 
+The approach followed in the current paper is to train a machine-learned model to automatically detect threats. We experiment with a range of different sources of linguistic information for defining our feature templates. 
 We also generalize these features through a `backoff' technique. Throughout, we make use of resources and tools that are freely available and reusable.
 
 
 \subsection{Experimental setup}
 
-\paragraph{Pre-processing}Since threat annotation is performed on the sentence level, the corpus has been manually split into sentences as part of the annotation process.  We performed tokenization, lemmatization, PoS-tagging and dependency parsing using the spaCy NLP toolkit. SpaCy assigns both the standard Penn Treebank PoS-tags \cite{Mar:San:Mar:93}, as well as the more coarse-grained Universal PoS tag set of \newcite{Pet:Das:McD:12}. The dependency parser assigns an analysis in compliance with the ClearNLP converter \cite{Cho:Pal:12}, see Figure~\ref{fig:dep} for an example dependency graph from the corpus. The corpus was further enriched with the cluster labels described in Turian et al.~\shortcite{Tur:Rat:Ben:10}, created using the Brown clustering algorithm \cite{Bro:deS:Mer:92} and induced from the Reuters corpus of English newswire text (RCV1).
+\paragraph{Pre-processing}Since threat annotation is performed on the sentence level, the corpus has been manually split into sentences as part of the annotation process.  We performed tokenization, lemmatization, POS-tagging and dependency parsing using the spaCy NLP toolkit. SpaCy assigns both the standard Penn Treebank POS-tags \cite{Mar:San:Mar:93}, as well as the more coarse-grained Universal POS tag set of \newcite{Pet:Das:McD:12}. The dependency parser assigns an analysis in compliance with the ClearNLP converter \cite{Cho:Pal:12}, see Figure~\ref{fig:dep} for an example dependency graph from the corpus. The corpus was further enriched with the cluster labels described in Turian et al.~\shortcite{Tur:Rat:Ben:10}, created using the Brown clustering algorithm \cite{Bro:deS:Mer:92} and induced from the Reuters corpus of English newswire text (RCV1).
 %, with approximately 63 million words and 3.3 million sentences.
 We vary the number of clusters to be either 100, 320, 1000 or 3200 clusters and use the full cluster label.  We also make use of the WordNet resource \cite{wordnet} to include information about the synset of a word, as well as its parent and grandparent synsets.
 
@@ -312,7 +312,7 @@ Based on the enriched corpus, as described above, we experiment with the followi
 \item Morphosyntactic:
   \begin{itemize}[noitemsep]
   \item Penn Treebank (PTB) POS
-  \item Universal (uPOS) PoS
+  \item Universal POS (uPOS)
   \item Dependency Relation
   \end{itemize}
   
@@ -329,22 +329,26 @@ Based on the enriched corpus, as described above, we experiment with the followi
 %% \item[Morphosyntactic] Penn Treebank (PTB) or Universal (uPOS) PoS and Dependency Relation
 %% \item[Semantic] Brown cluster label (100, 320, 1000 and 3200 clusters) and WordNet synset, parent synset and grandparent synset
 %% \end{description}
-These features are structured according to a set of \emph{feature templates}, which introduce varying degrees of linear order and syntactic context: bag-of-features (unordered), bigrams, trigrams and dependency triples. These feature templates are applied to the feature types presented above, in order to yield features like the following for our examples sentence in Figure \ref{fig:dep}:
+The features are structured according to a set of \emph{feature templates}, which record varying degrees of linear order and syntactic context: \emph{bag-of} features (unordered), bigrams, trigrams and dependency triples. These feature templates are applied with the information sources presented above, yielding features like the following for our examples sentence in Figure~\ref{fig:dep}:
 
 \begin{itemize}
 \setlength\itemsep{0em}
 \item Bigrams of word forms: \{i m,  m fucking, fucking scared, ...\}
 
-\item Depdendency triples: \{$<$m, nsubj, i$>$, $<$root, root, m$>$, $<$scared, amod, fucking$>$, ... \}
+\item Dependency triples: \{$<$m, nsubj, i$>$, $<$root, root, m$>$, $<$scared, amod, fucking$>$, ... \}
 \end{itemize}
-Our lexical features are very specific and require the exact combination of two lexical items in order to apply to a new instance. Following \newcite{Jos:Pen:2009}, we therefore experiment with generalizing features by `backing off' to a more general category, e.g., from word form to lemma or PoS. For example, a dependency triple over word forms like $<$kill, dobj, them$>$ would thus be generalized to $<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj, PRON$>$ using \emph{modifier-backoff}. These additional backoff features are included for bigrams and trigrams as well as dependency triples.
+%<-- fixme: Hvis vi får plass kan vi kanskje legge til noen fler eksempler som bruker mer av den tilgjengelige informasjonen vi gjør et poeng av? F.eks n-grams av POS, synsets, lemma, osv?
+
+Our lexicalized features are very specific and require the exact combination of two lexical items in order to apply to a new instance. Following \newcite{Jos:Pen:2009}, we therefore experiment with generalizing features by `backing off' to a more general category, e.g., from word form to lemma or POS. For example, a dependency triple over word forms like $<$kill, dobj, them$>$ would thus be generalized to $<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj, PRON$>$ using \emph{modifier-backoff}. These additional backoff features are included for bigrams and trigrams as well as dependency triples.
 
 We impose a simple count-based reduction of the feature set; only features appearing at least twice in the training data are included in the model.
 
 
 \subsection{Development results}
 
-During development, we first select a baseline system, consisting of a feature set of lexical features (word forms and lemmas) and a classifier, that we will compare the other results to. Next, we will test different combinations of the lexical feature sets used in the baseline testing. We will then introduce more linguistic features, both morphosyntactic and lexical semantic, as bags of features, and as backoff from word form $n$-grams. Finally, we will evaluate the inclusion of dependency triples, using both word form triples, and dependency triples with feature backoff.
+We start by defining an informed baseline system, empirically selecting an initial set of features and a classification framework to use as a basis and reference point for further development. The features for this initial round of tuning comprise basic lexical features; word forms and lemmas, in addition to $n$-grams defined over these.
+
+In the second round of experiments we test combinations of these basic lexical feature types, before moving on to introduce more linguistic features, both syntactic and semantic, as \emph{bag-of} features, and as backoff from word form $n$-grams. Finally, we will evaluate the inclusion of dependency triples. %, using both word form triples, and dependency triples with feature backoff.
 
 \begin{table}
   \begin{smaller}
@@ -356,9 +360,8 @@ During development, we first select a baseline system, consisting of a feature s
         \midrule
         Bag of word forms & $\textbf{0.6123}$ & $\textbf{0.6068}$ & $\textbf{0.5918}$ \\ % SVM bag of words er bare best dersom word form + uPOS ikke er med i tabellen
         Bag of lemmas & $0.5902$ & $0.5982$ & $0.5856$ \\
-        Bigrams & $0.4856$ & $0.4887$ & $0.4944$ \\
-        Trigrams & $0.2776$ & $0.2856$ & $0.2859$ \\
-      
+        Bigrams of word forms & $0.4856$ & $0.4887$ & $0.4944$ \\
+        Trigrams of word forms & $0.2776$ & $0.2856$ & $0.2859$ \\      
       
         \bottomrule
         % Data fra firstPass i classify
@@ -373,7 +376,7 @@ During development, we first select a baseline system, consisting of a feature s
   \end{smaller}
 \end{table}
 
-Table \ref{tab:baseline} shows baseline results in terms of F-score for bag-of lexical features (word form and lemma), and bigram and trigram templates over word form, for the three different classifiers. The overall best result came from the MaxEnt classifier with the bag of word form feature set. Generally, we see that feature sets containing bag of lexical features outperform the $n$-gram feature sets. The feature set we will use as a baseline in the next stage of our experiments is bag of word forms. The feature set recieved an F-score of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$, using the MaxEnt classifier after tuning. We will also be using only the MaxEnt classifier for the remainder of the feature set experiments.
+Table~\ref{tab:baseline} shows initial development results in terms of F-score for the the three different classifiers across four different feature sets; bags of word-forms and lemmas, as well as bigram and trigram over word forms. Generally, we see that feature sets containing lexical \emph{bag-of} features outperform the $n$-gram features. The overall best result came from the MaxEnt classifier with the bag-of-word form feature set. This model yielded an F-score of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$, using the MaxEnt classifier after tuning. This is the feature set we will use as our basic reference model in the next stage of our experiments is the bag-of-word forms. We will also only be using the the MaxEnt classifier for the remainder for reported development experiments. Not only did the MaxEnt model have the best performance for the basic BoW feature sets, but it is also the framework that is most convenient to use for exploring many combinations of features given that a MaxEnt model can be trained in much less time than an SVM or Random Forest classifier.
 
 \begin{table}
   \begin{smaller}
@@ -384,16 +387,15 @@ Table \ref{tab:baseline} shows baseline results in terms of F-score for bag-of l
         $n$-gram combination & BoW & BoW+BoL \\
         \midrule
         no $n$-grams & $0.6123$ & $0.6278$ \\
-        bigrams & $\textbf{0.6376}$ & $0.6577$ \\
-        trigrams & $0.6180$ & $0.6453$ \\
-        bi- and trigrams & $0.6337$ & $\textbf{0.6656}$ \\
+        +bigrams & $0.6376$ & $0.6577$ \\
+        +trigrams & $0.6180$ & $0.6453$ \\
+        +bi- and trigrams & $0.6337$ & $\textbf{0.6656}$ \\
         \bottomrule
 
       \end{tabular}
     \end{center}
-    \caption{F-scores of the bag of words feature set, with different
-      combinations of the other feature sets tested in Table
-      \ref{tab:baseline}.}
+    \caption{F-scores of the bag-of-words feature set, with different
+      combinations of the other feature sets tested in Table~\ref{tab:baseline}, namely bag-of-lemmas and $n$-grams of word forms.}
     \label{tab:ngrams}
     % tidligere Tabell 4
   \end{smaller}
@@ -421,12 +423,9 @@ Table \ref{tab:baseline} shows baseline results in terms of F-score for bag-of l
   \end{smaller}
 \end{table}
 
+We go on to test various combinations of these word form $n$-grams and the lexical \emph{bag-of} features. As seen in Table~\ref{tab:ngrams}, we test bag-of-words alone, and bag-of-words (BoW) with bag-of-lemmas (BoL), combined with the word form variants of bigrams, trigrams and both. The best result without BoL comes from BoW with only bigrams, with an F-score of $0.6376$, closely followed by BoW with both types of $n$-grams, which got an F-score of $0.6337$. However, the best result overall came from the combination of BoW, BoL, and both types of $n$-grams, which got an F-score of $0.6656$.
 
-
-We go on to test word form $n$-grams with bag of lexical features. As seen in Table \ref{tab:ngrams}, we test bag of words alone, and bag of words with bag of lemmas, combined with the word form variants of bigrams, trigrams and both. The best result without bag of lemmas comes from bag of words with only bigrams, with an F-score of $0.6376$, closely followed by bag of words with both types of $n$-grams, which got an F-score of $0.6337$. The best result overall came from the combination of bag of words, bag of lemmas, and both types of $n$-grams, which got an F-score of $0.6656$.
-
-
-Next, we add the different feature types. We use the bag-of feature template, and for each feature, test both the bag of features on its own, and with bag of words. As seen in Table \ref{tab:bagOfFeatures}, none of the feature types alone result in higher F-scores than bag of words. However, all feature types (except the lexicalized POS-tags), combined with bag of words, perform better than bag of words alone. Though none of them beat bag of words and lemmas combined, with an F-score of $0.6278$.
+Next, we include feature types based on the other information sources listed above, i.e., POS, dependencies, WordNet synsets, and Brown clusters. All these features are instantiated both with the \emph{bag-of} feature template on their own, and in combination with the bag-of-words features. As seen in Table~\ref{tab:bagOfFeatures}, none of the feature types alone yield higher F-scores than bag-of-words. On the other hand, when combined with BoW, all feature types (except the lexicalized POS-tags) perform better than BoW alone. However, none of them outperform BoW and BoL combined (F=$0.6278$, cf. Table~\ref{tab:ngrams}), or the combination of Bow+BoL with $n$-grams (F=$0.6656$).
 
 \begin{table}
   \begin{smaller}    
@@ -445,10 +444,10 @@ Next, we add the different feature types. We use the bag-of feature template, an
       & bigram & trigram & bi+trigram \\
       \midrule
       Lemma backoff & $0.6611$ & $0.6480$ &  $\textbf{0.6649}$ \\ 
-      POS backoff & $\textbf{0.6410}$ & $0.6294$ & $0.6320$ \\
-      Dep backoff & $0.6208$ & $0.6194$ & $\textbf{0.6220}$ \\
-      Synset backoff & $0.6454$ & $0.6448$ &  $\textbf{0.6537}$\\
-      Brown backoff & $0.6285$ &  $0.6173$  & $\textbf{0.6335}$\\
+      POS backoff & $0.6410$ & $0.6294$ & $0.6320$ \\
+      Dep backoff & $0.6208$ & $0.6194$ & $0.6220$ \\
+      Synset backoff & $0.6454$ & $0.6448$ &  $0.6537$\\
+      Brown backoff & $0.6285$ &  $0.6173$  & $0.6335$\\
       
       %Bigram + backoff, trigram & $\textbf{0.6649}$ & $0.6398$ & $0.6309$ & $0.6192$ \\
       %Bigram, trigram + backoff & $\textbf{0.6649}$ & $0.6320$ & $\textbf{0.6368}$ & $\textbf{0.6220}$ \\
@@ -463,14 +462,15 @@ Next, we add the different feature types. We use the bag-of feature template, an
   \end{smaller}
 \end{table}
 
-Next, we combine the results of bag of features, and $n$-grams, with $n$-gram feature backoffs. In Table \ref{tab:ngrambackoff} we see that the lemma backoff consistently outperform the other feature types, but that even lemma backoff does not improve upon the results without backoff features. We test all possible backoff combinations.
+Next, the $n$-grams and \emph{bag-of} features are combined with generalized versions of $n$-gram features using the `backoff' strategy described in the previous section. In Table~\ref{tab:ngrambackoff} we see that the lemma backoff consistently outperform the other feature types, but that even lemma backoff does not improve upon the results without backoff features. We test all possible backoff combinations.
+% fixme: forklar mer eksplisitt hvilke trekk som inngår i modellene i tabell 5, jeg klarte ikke gjøre rede for det selv.
 
 \begin{table}
   \begin{smaller}    
   \begin{center}
     \begin{tabular}{lrr}
       \toprule           
-      Dependency backoff & Simple & Combined\\
+      Dependency backoff & BoW+dep & All\\
       \midrule
       w/o backoff & $0.6240$ & $\textbf{0.6586}$ \\
       Lemma & $0.6224$ & $0.6507$ \\
@@ -480,17 +480,21 @@ Next, we combine the results of bag of features, and $n$-grams, with $n$-gram fe
       \bottomrule
     \end{tabular}
   \end{center}
-  \caption{Dependency triples with and without feature backoff. Simple is the feature set containing bag of words and dependency triples. Combined is the feature set containing bag of words, bag of lemmas, bigrams, trigrams and dependency triples. Each row backs off to a different feature type.}
+  \caption{Dependency triples with and without feature backoff, in combination with other features: 
+`BoW+dep' is the feature set containing bag-of-words and dependency triples. `All' is the feature set containing BoW, BoL, bi- and trigrams and dependency triples. Each row backs off to a different feature type.}
   \label{tab:depbackoff}
   \end{smaller}
 \end{table}
 
-Lastly, we will test the addition of dependency triples to our models. We add dependency triples consisting of word forms, both alone, and in conjunction with feature backoffs. As with $n$-gram backoff, we test multiple variations of backoff, both head-backoff and modifier-backoff. The results reported are the backoff variant that acheived the best results. As seen in Table \ref{tab:depbackoff}, the inclusion of word form dependency triples improved upon the simplest model, with an F-score of $0.6240$, compared to $0.6123$ for bag of words alone. Dependency triples did not, however, improve upon the results achieved by our best model, as the best model with dependency triples got an F-score of $0.6586$ compared to our best result of $0.6656$.
+Lastly, we will test the addition of dependency triples to our models. We add dependency triples consisting of word forms, both alone, and in conjunction with feature backoffs. As with $n$-gram backoff, we test multiple variations of backoff, both head-backoff and modifier-backoff. The results reported are the backoff variant that achieved the best results. As seen in Table \ref{tab:depbackoff}, the inclusion of word form dependency triples improved upon the simplest model, with an F-score of $0.6240$, compared to $0.6123$ for bag of words alone. Dependency triples did not, however, improve upon the results achieved by our best model, as the best model with dependency triples got an F-score of $0.6586$ compared to our best result of $0.6656$.
 
 The addition of backoff also did not improve upon our best model. Adding POS backoff to our simplest model resulted in a slightly increased F-score of $0.6298$. Adding backoff to our combined model, however, only resulted in poorer F-scores, with the best feature backoff (also POS) resulting in an F-score of $0.6547$.
 
-Our final model (which we refer to as ``Combined'') is the model consisting of bag of word forms, bag of lemmas, and word form bigrams and trigrams, which got the best result, with an F-score of $0.6656$. In Subsection \ref{sec:heldout} we will also test that same model with the addition of trigram backoff to lemmas, which got an F-score of $0.6649$.
 
+
+For the development data, our best performer remains the feature set comprising bag-of-word forms, bag-of-lemmas, and word form bigrams and trigrams; with an F-score of $0.6656$. We will refer to this model as `lexical $n$-grams', and in the next section we present a brief error analysis before moving on to held-out testing.
+
+ % In Section~\ref{sec:heldout} we will also test that same model with the addition of trigram backoff to lemmas, which got an F-score of $0.6649$.
 
 %% Morphosyntactic features:
 %% - bag of, bigram, trigram of pos, deprel
@@ -507,8 +511,8 @@ Our final model (which we refer to as ``Combined'') is the model consisting of b
 \subsection{Error analysis}
 
 %% Before we perform our held-out testing, we will examine what types of errors we have in our model, when tested on the development set. 
-The combined feature set acheived a precision of $0.7709$, and a recall of $0.5857$. Compared with our baseline system, which had a precision of $0.6777$, and a recall of $0.5585$, we see that the majority of the improvement over the baseline comes from the increase in precision. When reviewing a random subsample of the false positives and false negatives, we see that the noisy data has caused some problems for the preprocessor. Another source of errors, specifically for precision, are comments which use multiple typically threatening words in a non-threatening context.
-
+The lexical $n$-gram feature set achieved a precision (P) of $0.7709$ and a recall (R) of $0.5857$. Compared with our initial BoW system, which had P=$0.6777$ and R=$0.5585$, we see that the majority of the improvement comes from the increase in precision. When reviewing a random sub-sample of the false positives and false negatives, we see that the noisy data has caused some problems for the pre-processor. % fixme: kanskje forklare mer hva det siktes til her?
+Another source of errors, specifically for precision, are comments which use multiple typically threatening words in a non-threatening context. % fixme: gi eksempler på fenomener vi sikter til her?
 
 %% \begin{table}
 %%   \begin{center}
@@ -533,9 +537,12 @@ The combined feature set acheived a precision of $0.7709$, and a recall of $0.58
 \subsection{Held-out results}
 \label{sec:heldout}
 
-We performed our final testing on the held-out test set using the baseline feature set, the combined feature set, and the combined features set with trigram backoff using lemma features. As seen in Table \ref{tab:heldout}, both the best feature set, and the second best, from our development testing, outperformed the baseline feature set. The best feature set from development also outperformed the second best. The difference in F-scores between the baseline and the best feature set was not as large as in our development testing. However, this may be due to the fact that the baseline performed a lot better in the held-out testing compared to the development testing, with an F-score of $0.6562$. The F-scores of the combined feature sets were $0.6860$ and $0.6799$. In fact, both the combined feature sets improved upon the baseline in both precision, recall and F-scores.
+We performed our final testing on the held-out test set using the basic BoW model and the lexical $n$-gram model. As seen in Table~\ref{tab:heldout}, the $n$-gram model outperforms the BoW model by a good margin, with F-scores of $0.6860$ and $0.6562$ respectively. However, the difference in F-scores between the two feature sets is not as large as on the development data. At the same time, we see that both models actually achieves higher scores on the held-out data than the development data, and this effect is particularly strong for the BoW model (with the F-score going up from $0.6123$ to $0.6562$). % fixme: noen teori om hvorfor vi ser denne effekten?
+% fixme: si noe som størrelsen på held-out dataene.
 
+% fixme: sier vi noe sted eksplisitt om testing skjer på setningsnivå eller kommentarnivå?
 
+% However, this may be due to the fact that the basic BoW model performed a lot better in the held-out testing compared to the development testing, with an F-score of $0.6562$. The F-scores of the combined feature sets were $0.6860$ and $0.6799$. In fact, both the combined feature sets improved upon the baseline in both precision, recall and F-scores.
 
 \begin{table}
 \begin{smaller}
@@ -546,19 +553,21 @@ We performed our final testing on the held-out test set using the baseline featu
       \midrule
       Baseline & $0.7325$ & $0.5943$ & $0.6562$ \\
       Combined & $0.7532$ & $\textbf{0.6299}$ & $\textbf{0.6860}$  \\
-      Combined+backoff & $\textbf{0.7703}$ & $0.6085$ & $0.6799$ \\            
+%      Combined+backoff & $\textbf{0.7703}$ & $0.6085$ & $0.6799$ \\            
       \bottomrule
     \end{tabular}
   \end{center}
-  \caption{Precision, recall and F-score for the baseline feature set, the best feature set, and the best backoff feature set, when classification is performed on the held-out test set.}
+  \caption{Precision, recall and F-score on the held-out test set for the basic BoW model and the best development feature set; the lexical $n$-gram model.}
   \label{tab:heldout}
 \end{smaller}
 \end{table}
 
 
-
 \section{Conclusion}
 \label{sec:conclusion}
+
+This paper has developed and compared several machine-learned models for automatically detecting threats of violence in online discussions. The data set comprises a manually annotated corpus of comments from YouTube videos. We have reported experimental results for different classification frameworks and a wide range of different linguistic features. The best performance was observed for combinations of simple lexical features (bag-of-words- and lemmas, in combination with bi- and trigrams). Introducing more complex features -- drawing on information from WordNet synsets, Brown clusters, POS tags and dependency parses -- did not improve on the simpler surface-based feature set.
+
 
 \bibliography{wassa2016}
 \bibliographystyle{naaclhlt2016}
