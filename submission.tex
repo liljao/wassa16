@@ -318,8 +318,8 @@ Based on the enriched corpus, as described above, we experiment with the followi
   
 \item Semantic:
   \begin{itemize}[noitemsep]
-    \item Brown cluster label (100, 320, 1000 and 3200 clusters)
-    \item WordNet synset, parent synset and grandparent synset
+    \item Brown cluster label %(100, 320, 1000 and 3200 clusters)
+    \item WordNet synset, + parent and grandparent
   \end{itemize}
 \end{itemize}
 
@@ -329,15 +329,19 @@ Based on the enriched corpus, as described above, we experiment with the followi
 %% \item[Morphosyntactic] Penn Treebank (PTB) or Universal (uPOS) PoS and Dependency Relation
 %% \item[Semantic] Brown cluster label (100, 320, 1000 and 3200 clusters) and WordNet synset, parent synset and grandparent synset
 %% \end{description}
-The features are structured according to a set of \emph{feature templates}, which record varying degrees of linear order and syntactic context: \emph{bag-of} features (unordered), bigrams, trigrams and dependency triples. These feature templates are applied with the information sources presented above, yielding features like the following for our examples sentence in Figure~\ref{fig:dep}:
+The features are structured according to a set of \emph{feature templates},
+which record varying degrees of linear order and syntactic context:
+\emph{bag-of} features (unordered), bigrams, trigrams and dependency
+triples. Examples of the latter, given the sentence in Figure~\ref{fig:dep},
+would be: \{$<$m, nsubj, i$>$, $<$root, root, m$>$, $<$scared, amod, fucking$>$, \ldots \}
 
-\begin{itemize}
-\setlength\itemsep{0em}
-\item Bigrams of word forms: \{i m,  m fucking, fucking scared, ...\}
-
-\item Dependency triples: \{$<$m, nsubj, i$>$, $<$root, root, m$>$, $<$scared, amod, fucking$>$, ... \}
-\end{itemize}
-%<-- fixme: Hvis vi får plass kan vi kanskje legge til noen fler eksempler som bruker mer av den tilgjengelige informasjonen vi gjør et poeng av? F.eks n-grams av POS, synsets, lemma, osv?
+%These feature templates are applied with the information sources presented above, yielding features like the following for our examples sentence in Figure~\ref{fig:dep}:
+%% \begin{itemize}
+%% \setlength\itemsep{0em}
+%% \item Bigrams of word forms: \{i m,  m fucking, fucking scared, ...\}
+%%%
+%% \item Dependency triples: \{$<$m, nsubj, i$>$, $<$root, root, m$>$, $<$scared, amod, fucking$>$, ... \}
+%% \end{itemize}
 
 Our lexicalized features are very specific and require the exact combination of two lexical items in order to apply to a new instance. Following \newcite{Jos:Pen:2009}, we therefore experiment with generalizing features by `backing off' to a more general category, e.g., from word form to lemma or POS. For example, a dependency triple over word forms like $<$kill, dobj, them$>$ would thus be generalized to $<$VERB, dobj, them$>$ using \emph{head-backoff}, and $<$kill, dobj, PRON$>$ using \emph{modifier-backoff}. These additional backoff features are included for bigrams and trigrams as well as dependency triples.
 
@@ -358,8 +362,8 @@ In the second round of experiments we test combinations of these basic lexical f
 
         & MaxEnt & SVM & RF \\
         \midrule
-        Bag of word forms & $\textbf{0.6123}$ & $\textbf{0.6068}$ & $\textbf{0.5918}$ \\ % SVM bag of words er bare best dersom word form + uPOS ikke er med i tabellen
-        Bag of lemmas & $0.5902$ & $0.5982$ & $0.5856$ \\
+        Bag-of-words & $\textbf{0.6123}$ & $\textbf{0.6068}$ & $\textbf{0.5918}$ \\ % SVM bag of words er bare best dersom word form + uPOS ikke er med i tabellen
+        Bag-of-lemmas & $0.5902$ & $0.5982$ & $0.5856$ \\
         Bigrams of word forms & $0.4856$ & $0.4887$ & $0.4944$ \\
         Trigrams of word forms & $0.2776$ & $0.2856$ & $0.2859$ \\      
       
@@ -376,7 +380,7 @@ In the second round of experiments we test combinations of these basic lexical f
   \end{smaller}
 \end{table}
 
-Table~\ref{tab:baseline} shows initial development results in terms of F-score for the the three different classifiers across four different feature sets; bags of word-forms and lemmas, as well as bigram and trigram over word forms. Generally, we see that feature sets containing lexical \emph{bag-of} features outperform the $n$-gram features. The overall best result came from the MaxEnt classifier with the bag-of-word form feature set. This model yielded an F-score of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$, using the MaxEnt classifier after tuning. This is the feature set we will use as our basic reference model in the next stage of our experiments is the bag-of-word forms. We will also only be using the the MaxEnt classifier for the remainder for reported development experiments. Not only did the MaxEnt model have the best performance for the basic BoW feature sets, but it is also the framework that is most convenient to use for exploring many combinations of features given that a MaxEnt model can be trained in much less time than an SVM or Random Forest classifier.
+Table~\ref{tab:baseline} shows initial development results in terms of F-score for the the three different classifiers across four different feature sets; bags of word-forms and lemmas, as well as bigrams and trigrams over word forms. Generally, we see that feature sets containing lexical \emph{bag-of} features outperform the $n$-gram features. The overall best result came from the MaxEnt classifier with the bag-of-word form feature set. This model yielded an F-score of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$, using the MaxEnt classifier after tuning. This is the feature set we will use as our basic reference model in the next stage of our experiments is the bag-of-word forms. We will also only be using the the MaxEnt classifier for the remainder for reported development experiments. Not only did the MaxEnt model have the best performance for the basic BoW feature sets, but it is also the framework that is most convenient to use for exploring many combinations of features given that a MaxEnt model can be trained in much less time than an SVM or Random Forest classifier.
 
 \begin{table}
   \begin{smaller}
@@ -417,7 +421,7 @@ Table~\ref{tab:baseline} shows initial development results in terms of F-score f
 
     \end{tabular}
   \end{center}
-  \caption{F-scores of bag of features (BoF) with and without bag of words (BoW). POS\textsubscript{Lex} and Dep\textsubscript{Lex} are lexicalized POS and dep-tags, respectively, where each feature is a tuple consisting of the tag and the word form of the token.}
+  \caption{F-scores of \emph{bag-of} features (BoF) with and without bag-of-words (BoW). POS\textsubscript{Lex} and Dep\textsubscript{Lex} are lexicalized POS and dep-tags, respectively, where each feature is a tuple consisting of the tag and the word form of the token.}
   \label{tab:bagOfFeatures}
   % tidligere Tabell 3
   \end{smaller}
@@ -457,7 +461,8 @@ Next, we include feature types based on the other information sources listed abo
 
     \end{tabular}
   \end{center}
-  \caption{Backoff from different combinations of $n$-grams. The models also contain bag of words, and bag of features. Each backoff combination is the one that achieved the best result.}
+  \caption{Backoff from different combinations of $n$-grams. The models also
+    contain bag-of-words and the other \emph{bag-of} features. Each backoff combination is the one that achieved the best result.}
   \label{tab:ngrambackoff}
   \end{smaller}
 \end{table}
@@ -486,13 +491,20 @@ Next, the $n$-grams and \emph{bag-of} features are combined with generalized ver
   \end{smaller}
 \end{table}
 
-Lastly, we will test the addition of dependency triples to our models. We add dependency triples consisting of word forms, both alone, and in conjunction with feature backoffs. As with $n$-gram backoff, we test multiple variations of backoff, both head-backoff and modifier-backoff. The results reported are the backoff variant that achieved the best results. As seen in Table \ref{tab:depbackoff}, the inclusion of word form dependency triples improved upon the simplest model, with an F-score of $0.6240$, compared to $0.6123$ for bag of words alone. Dependency triples did not, however, improve upon the results achieved by our best model, as the best model with dependency triples got an F-score of $0.6586$ compared to our best result of $0.6656$.
+Lastly, we will test the addition of dependency triples to our models. We add
+dependency triples consisting of word forms, both alone, and in conjunction
+with feature backoffs. As with $n$-gram backoff, we test multiple variations of
+backoff, both head-backoff and modifier-backoff. The results reported are the
+backoff variant that achieved the best results. As seen in Table
+\ref{tab:depbackoff}, the inclusion of word form dependency triples improved
+upon the simplest model, with an F-score of $0.6240$, compared to $0.6123$ for
+bag-of-words alone. Dependency triples did not, however, improve upon the
+results achieved by our previous best performer with an F-score of $0.6656$. %, as the best model with dependency triples got an F-score of $0.6586$ compared to our best result of $0.6656$.
+Neither did the addition of backoff improve upon this model. Adding POS backoff
+to the `BoW+dep' configuration resulted in a slightly increased F-score of
+$0.6298$. However, adding backoff to the `All' feature set only resulted in poorer F-scores, with the best feature backoff (also POS) resulting in an F-score of $0.6547$.
 
-The addition of backoff also did not improve upon our best model. Adding POS backoff to our simplest model resulted in a slightly increased F-score of $0.6298$. Adding backoff to our combined model, however, only resulted in poorer F-scores, with the best feature backoff (also POS) resulting in an F-score of $0.6547$.
-
-
-
-For the development data, our best performer remains the feature set comprising bag-of-word forms, bag-of-lemmas, and word form bigrams and trigrams; with an F-score of $0.6656$. We will refer to this model as `lexical $n$-grams', and in the next section we present a brief error analysis before moving on to held-out testing.
+For the development data, our best performer remains the feature set comprising bag-of-word forms, bag-of-lemmas, and word form bigrams and trigrams; with an F-score of $0.6656$. We will refer to this model as `lexical $n$-grams'. % and in the next section we present a brief error analysis before moving on to held-out testing.
 
  % In Section~\ref{sec:heldout} we will also test that same model with the addition of trigram backoff to lemmas, which got an F-score of $0.6649$.
 
@@ -508,11 +520,13 @@ For the development data, our best performer remains the feature set comprising 
 
 %% Combination of best from baseline, morphosyntactic and semantic
 
-\subsection{Error analysis}
+%\subsection{Error analysis}
 
 %% Before we perform our held-out testing, we will examine what types of errors we have in our model, when tested on the development set. 
 The lexical $n$-gram feature set achieved a precision (P) of $0.7709$ and a recall (R) of $0.5857$. Compared with our initial BoW system, which had P=$0.6777$ and R=$0.5585$, we see that the majority of the improvement comes from the increase in precision. When reviewing a random sub-sample of the false positives and false negatives, we see that the noisy data has caused some problems for the pre-processor. % fixme: kanskje forklare mer hva det siktes til her?
-Another source of errors, specifically for precision, are comments which use multiple typically threatening words in a non-threatening context. % fixme: gi eksempler på fenomener vi sikter til her?
+Another source of errors, specifically for precision, are comments which use multiple typically threatening words in a non-threatening context.
+
+% fixme: gi eksempler på fenomener vi sikter til her?
 
 %% \begin{table}
 %%   \begin{center}
@@ -551,8 +565,8 @@ We performed our final testing on the held-out test set using the basic BoW mode
       \toprule      
       & Precision & Recall & F-score\\
       \midrule
-      Baseline & $0.7325$ & $0.5943$ & $0.6562$ \\
-      Combined & $0.7532$ & $\textbf{0.6299}$ & $\textbf{0.6860}$  \\
+      BoW & $0.7325$ & $0.5943$ & $0.6562$ \\
+      Combined & $\textbf{0.7532}$ & $\textbf{0.6299}$ & $\textbf{0.6860}$  \\
 %      Combined+backoff & $\textbf{0.7703}$ & $0.6085$ & $0.6799$ \\            
       \bottomrule
     \end{tabular}
