@@ -500,11 +500,11 @@ backoff variant that achieved the best results. As seen in Table
 upon the simplest model, with an F-score of $0.6240$, compared to $0.6123$ for
 bag-of-words alone. Dependency triples did not, however, improve upon the
 results achieved by our previous best performer with an F-score of $0.6656$. %, as the best model with dependency triples got an F-score of $0.6586$ compared to our best result of $0.6656$.
-Neither did the addition of backoff improve upon this model. Adding POS backoff
+Neither did the addition of backoff improve upon this. Adding POS backoff
 to the `BoW+dep' configuration resulted in a slightly increased F-score of
 $0.6298$. However, adding backoff to the `All' feature set only resulted in poorer F-scores, with the best feature backoff (also POS) resulting in an F-score of $0.6547$.
 
-For the development data, our best performer remains the feature set comprising bag-of-word forms, bag-of-lemmas, and word form bigrams and trigrams; with an F-score of $0.6656$. We will refer to this model as `lexical $n$-grams'. % and in the next section we present a brief error analysis before moving on to held-out testing.
+For the development data then, our best performer remains the feature set comprising bag-of-word forms, bag-of-lemmas, and word form bigrams and trigrams; with an F-score of $0.6656$. We will refer to this model as `lexical $n$-grams'. % fixme: burde kanskje ha introdusert denne termen tidligere?
 
  % In Section~\ref{sec:heldout} we will also test that same model with the addition of trigram backoff to lemmas, which got an F-score of $0.6649$.
 
@@ -566,7 +566,7 @@ We performed our final testing on the held-out test set using the basic BoW mode
       & Precision & Recall & F-score\\
       \midrule
       BoW & $0.7325$ & $0.5943$ & $0.6562$ \\
-      Combined & $\textbf{0.7532}$ & $\textbf{0.6299}$ & $\textbf{0.6860}$  \\
+      Lexical $n$-grams & $\textbf{0.7532}$ & $\textbf{0.6299}$ & $\textbf{0.6860}$  \\
 %      Combined+backoff & $\textbf{0.7703}$ & $0.6085$ & $0.6799$ \\            
       \bottomrule
     \end{tabular}
