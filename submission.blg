@@ -5,22 +5,22 @@ The style file: naaclhlt2016.bst
 Database file #1: wassa2016.bib
 You've used 13 entries,
             2490 wiz_defined-function locations,
-            633 strings with 7067 characters,
-and the built_in function-call counts, 6036 in all, are:
-= -- 626
+            635 strings with 7185 characters,
+and the built_in function-call counts, 6038 in all, are:
+= -- 630
 > -- 263
 < -- 6
 + -- 92
 - -- 90
-* -- 421
-:= -- 943
+* -- 423
+:= -- 946
 add.period$ -- 55
 call.type$ -- 13
 change.case$ -- 96
 chr.to.int$ -- 12
 cite$ -- 13
 duplicate$ -- 274
-empty$ -- 447
+empty$ -- 443
 format.name$ -- 108
 if$ -- 1295
 int.to.chr$ -- 2
@@ -32,10 +32,10 @@ pop$ -- 118
 preamble$ -- 1
 purify$ -- 110
 quote$ -- 0
-skip$ -- 218
+skip$ -- 215
 stack$ -- 0
 substring$ -- 264
-swap$ -- 87
+swap$ -- 85
 text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
@@ -43,4 +43,4 @@ type$ -- 100
 warning$ -- 0
 while$ -- 42
 width$ -- 16
-write$ -- 185
+write$ -- 187

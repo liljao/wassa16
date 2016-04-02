@@ -1,7 +1,8 @@
 \begin{thebibliography}{}
 
 \bibitem[\protect\citename{Brown \bgroup et al.\egroup }1992]{Bro:deS:Mer:92}
-P.F. Brown, P.V. deSouza, R.L. Mercer, V.J.D. Pietra, and J.C. Lai.
+Peter~F. Brown, Peter~V. deSouza, Robert~L. Mercer, Vincent J.~Della Pietra,
+  and Jenifer~C. Lai.
 \newblock 1992.
 \newblock Class-based n-gram models of natural language.
 \newblock {\em Computational Linguistics}, 18.
@@ -62,9 +63,10 @@ Nelleke Oostdijk and Hans van Halteren.
   in Social Networks Analysis and Mining}}, Niagara, Canada. ACM.
 
 \bibitem[\protect\citename{Pedregosa \bgroup et al.\egroup }2011]{scikit-learn}
-F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
-  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
-  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
+Fabian Pedregosa, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand
+  Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron Weiss,
+  Vincent Dubourg, Jake Vanderplas, Alexandre Passos, David Cournapeau,
+  Matthieu Brucher, Matthieu Perrot, and Édouard Duchesnay.
 \newblock 2011.
 \newblock Scikit-learn: Machine learning in {P}ython.
 \newblock {\em Journal of Machine Learning Research}, 12:2825--2830.
@@ -82,13 +84,14 @@ Joseph Turian, Lev Ratinov, and Yoshua Bengio.
 \newblock Word representations: a simple and general method for semi-supervised
   learning.
 \newblock In {\em Proceedings of the 48th {M}eeting of the {A}ssociation for
-  {C}omputational {L}inguistics}.
+  {C}omputational {L}inguistics}, Uppsala, Sweden.
 
 \bibitem[\protect\citename{Warner and Hirschberg}2012]{warner2012}
 William Warner and Julia Hirschberg.
 \newblock 2012.
 \newblock Detecting hate speech on the world wide web.
 \newblock In {\em {Proceedings of the Second Workshop on Language in Social
-  Media}}, pages 19--26. Association for Computational Linguistics.
+  Media}}, pages 19--26, Montreal, Canada. Association for Computational
+  Linguistics.
 
 \end{thebibliography}

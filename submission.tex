@@ -135,7 +135,8 @@ In \newcite{nellshallow2013}, a manually crafted shallow parser is added to the 
 % rule-based shallow parser
 % dubious evaluation
 
-\newcite{warner2012} present a method for detecting hate speech in user-generated web text, which relies on machine learning in combination with template-based features. The task is approached as a word-sense disambiguation task, since the same words can be used in both hateful and non-hateful contexts. The features used in the classification were combinations of uni-, bi- and trigrams, part-of-speech-tags and Brown clusters.  The best results were obtained using only unigram features, with a precision of 0.67 and a recall of 0.60. The other feature sets garnered much lower results, and the authors suggest that deeper parsing could reveal significant phrase patterns.
+\newcite{warner2012} present a method for detecting hate speech in user-generated web text, which relies on machine learning in combination with template-based features. The task is approached as a word-sense disambiguation task, since the same words can be used in both hateful and non-hateful contexts. The features used in the classification were combinations of uni-, bi- and trigrams, part-of-speech-tags and Brown clusters.  The best results were obtained using only unigram features, with a precision of 0.67 and a recall of 0.60. %% The other feature sets garnered much lower results, and 
+The authors suggest that deeper parsing could reveal significant phrase patterns.
 % only unigrams best results
 % suggests parsing might help
 
@@ -294,7 +295,9 @@ We vary the number of clusters to be either 100, 320, 1000 or 3200 clusters and 
 We test three different classification frameworks in our development testing: Maximum Entropy (MaxEnt), Support Vector Machines (SVM), and Random Forests (RF).  We approach the task as a binary classification task, using the implementations found in the scikit-learn toolkit \cite{scikit-learn}.
 
 \paragraph{Tuning}
-When tuning each model, we aim to maximize the F-score. For the MaxEnt and SVM classifiers we tune the regularization parameter (C), where a smaller value corresponds to stronger regularization. When tuning these classifiers, we start with C-values from 1 to 150 in 10-value increments, select the best performing C-value and repeat the process with decreasing increments, with the range of C-values centered on the best performing C-value thus far. After 6 iterations, we terminate the tuning, and select the best performing C-value. When tuning the Random Forest classifier, we perform a grid search over the maximum number of features used when splitting a node in the tree (sqrt($n$), log($n$) or $n$, where $n$ is the number of features in the model), and the number of trees (10, 100 or 1000, depending on the size of the feature set). In the following experiments, we perform tuning on all feature sets.
+When tuning each model, we aim to maximize the F-score. For the MaxEnt and SVM classifiers we tune the regularization parameter (C), where a smaller value corresponds to stronger regularization. When tuning these classifiers, we start with C-values from 1 to 150 in 10-value increments, select the best performing C-value and repeat the process with decreasing increments, with the range of C-values centered on the best performing C-value thus far. After 6 iterations, we terminate the tuning, and select the best performing C-value. When tuning the Random Forest classifier, we perform a grid search over the maximum number of features used when splitting a node in the tree %% (sqrt($n$), log($n$) or $n$, where $n$ is the number of features in the model)
+, and the number of trees %% (10, 100 or 1000, depending on the size of the feature set)
+. In the following experiments, we perform tuning on all feature sets.
 
 % TODO: Ta med siste setning, om at vi alltid tuner
 %% When performing tuning on the MaxEnt classifier with the bag of words features set, F-score improved from $0.5622$, using the default settings (C-value=1), to $0.6123$, using the best C-value ($11.25$). The large increase in F-score after tuning leads us to perform tuning on every feature set we test.
@@ -380,7 +383,7 @@ In the second round of experiments we test combinations of these basic lexical f
   \end{smaller}
 \end{table}
 
-Table~\ref{tab:baseline} shows initial development results in terms of F-score for the the three different classifiers across four different feature sets; bags of word-forms and lemmas, as well as bigrams and trigrams over word forms. Generally, we see that feature sets containing lexical \emph{bag-of} features outperform the $n$-gram features. The overall best result came from the MaxEnt classifier with the bag-of-word form feature set. This model yielded an F-score of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$, using the MaxEnt classifier after tuning. This is the feature set we will use as our basic reference model in the next stage of our experiments is the bag-of-word forms. We will also only be using the the MaxEnt classifier for the remainder for reported development experiments. Not only did the MaxEnt model have the best performance for the basic BoW feature sets, but it is also the framework that is most convenient to use for exploring many combinations of features given that a MaxEnt model can be trained in much less time than an SVM or Random Forest classifier.
+Table~\ref{tab:baseline} shows initial development results in terms of F-score for the the three different classifiers across four different feature sets; bags of word-forms and lemmas, as well as bigrams and trigrams over word forms. Generally, we see that feature sets containing lexical \emph{bag-of} features outperform the $n$-gram  features. The overall best result came from the MaxEnt classifier with the bag-of-word form feature set. This model yielded an F-score of $0.6123$, with a precision of $0.6777$ and a recall of $0.5585$, using the MaxEnt classifier after tuning. This is the feature set we will use as our basic reference model in the next stage of our experiments is the bag-of-word forms. We will also only be using the the MaxEnt classifier for the remainder for reported development experiments. Besides acheiving the best result on the BoW feature set, MaxEnt also has a shorter training time than the other two classifiers.%% Not only did the MaxEnt model have the best performance for the basic BoW feature sets, but it is also the framework that is most convenient to use for exploring many combinations of features given that a MaxEnt model can be trained in much less time than an SVM or Random Forest classifier.
 
 \begin{table}
   \begin{smaller}
@@ -493,16 +496,15 @@ Next, the $n$-grams and \emph{bag-of} features are combined with generalized ver
 
 Lastly, we will test the addition of dependency triples to our models. We add
 dependency triples consisting of word forms, both alone, and in conjunction
-with feature backoffs. As with $n$-gram backoff, we test multiple variations of
-backoff, both head-backoff and modifier-backoff. The results reported are the
-backoff variant that achieved the best results. As seen in Table
+with feature backoffs. We test both head-backoff and modifier-backoff, and we report the variant that achieved the best results. As seen in Table
 \ref{tab:depbackoff}, the inclusion of word form dependency triples improved
 upon the simplest model, with an F-score of $0.6240$, compared to $0.6123$ for
 bag-of-words alone. Dependency triples did not, however, improve upon the
 results achieved by our previous best performer with an F-score of $0.6656$. %, as the best model with dependency triples got an F-score of $0.6586$ compared to our best result of $0.6656$.
-Neither did the addition of backoff improve upon this. Adding POS backoff
-to the `BoW+dep' configuration resulted in a slightly increased F-score of
-$0.6298$. However, adding backoff to the `All' feature set only resulted in poorer F-scores, with the best feature backoff (also POS) resulting in an F-score of $0.6547$.
+The addition of backoff also did not improve the results above the previous best performer.
+%% Neither did the addition of backoff improve upon this. Adding POS backoff
+%% to the `BoW+dep' configuration resulted in a slightly increased F-score of
+%% $0.6298$. However, adding backoff to the `All' feature set only resulted in poorer F-scores, with the best feature backoff (also POS) resulting in an F-score of $0.6547$.
 
 For the development data then, our best performer remains the feature set comprising bag-of-word forms, bag-of-lemmas, and word form bigrams and trigrams; with an F-score of $0.6656$. We will refer to this model as `lexical $n$-grams'. % fixme: burde kanskje ha introdusert denne termen tidligere?
 
@@ -523,7 +525,8 @@ For the development data then, our best performer remains the feature set compri
 %\subsection{Error analysis}
 
 %% Before we perform our held-out testing, we will examine what types of errors we have in our model, when tested on the development set. 
-The lexical $n$-gram feature set achieved a precision (P) of $0.7709$ and a recall (R) of $0.5857$. Compared with our initial BoW system, which had P=$0.6777$ and R=$0.5585$, we see that the majority of the improvement comes from the increase in precision. When reviewing a random sub-sample of the false positives and false negatives, we see that the noisy data has caused some problems for the pre-processor. % fixme: kanskje forklare mer hva det siktes til her?
+The lexical $n$-gram feature set achieved a precision (P) of $0.7709$ and a recall (R) of $0.5857$. The performance of the same feature set improved slightly when using the SVM classifier (F=$0.6667$, P=$0.7629$, R=$0.5920$).
+Compared with our initial BoW system, which had P=$0.6777$ and R=$0.5585$, we see that the majority of the improvement comes from the increase in precision. Both increases are statistically significant, with p-values of $1.3\mathrm{e}{-11}$ and $8.6\mathrm{e}{-11}$ for the lexical $n$-gram system using MaxEnt and SVM, respectively, when comparing with BoW, using the Wilcoxon significance test. When reviewing a random sub-sample of the false positives and false negatives, we see that the noisy data has caused some problems for the pre-processor. % fixme: kanskje forklare mer hva det siktes til her?
 Another source of errors, specifically for precision, are comments which use multiple typically threatening words in a non-threatening context.
 
 % fixme: gi eksempler på fenomener vi sikter til her?
@@ -551,8 +554,8 @@ Another source of errors, specifically for precision, are comments which use mul
 \subsection{Held-out results}
 \label{sec:heldout}
 
-We performed our final testing on the held-out test set using the basic BoW model and the lexical $n$-gram model. As seen in Table~\ref{tab:heldout}, the $n$-gram model outperforms the BoW model by a good margin, with F-scores of $0.6860$ and $0.6562$ respectively. However, the difference in F-scores between the two feature sets is not as large as on the development data. At the same time, we see that both models actually achieves higher scores on the held-out data than the development data, and this effect is particularly strong for the BoW model (with the F-score going up from $0.6123$ to $0.6562$). % fixme: noen teori om hvorfor vi ser denne effekten?
-% fixme: si noe som størrelsen på held-out dataene.
+We performed our final testing on the held-out test set using the basic BoW model and the lexical $n$-gram model. The held-out test set consists of 5,685 sentences, 281 of which are threats, and we train on the entire development set. As seen in Table~\ref{tab:heldout}, the $n$-gram model outperforms the BoW model by a good margin, with F-scores of $0.6860$ and $0.6562$ respectively. However, the difference in F-scores between the two feature sets is not as large as on the development data, and they are in fact not statistically significant, with p-values of $0.14$ and $0.16$, when comparing the MaxEnt and SVM lexical n-gram models, respectivley, to BoW, using Wilcoxon. At the same time, we see that all the models actually achieves higher scores on the held-out data than the development data, and this effect is particularly strong for the BoW model (with the F-score going up from $0.6123$ to $0.6562$). % fixme: noen teori om hvorfor vi ser denne effekten?
+% fixedfixme: si noe som størrelsen på held-out dataene.
 
 % fixme: sier vi noe sted eksplisitt om testing skjer på setningsnivå eller kommentarnivå?
 
@@ -566,7 +569,9 @@ We performed our final testing on the held-out test set using the basic BoW mode
       & Precision & Recall & F-score\\
       \midrule
       BoW & $0.7325$ & $0.5943$ & $0.6562$ \\
-      Lexical $n$-grams & $\textbf{0.7532}$ & $\textbf{0.6299}$ & $\textbf{0.6860}$  \\
+      Lexical $n$-grams, MaxEnt & $\textbf{0.7532}$ & $0.6299$ & $0.6860$  \\
+      
+      Lexical $n$-grams, SVM & $0.7490$ & $\textbf{0.6370}$ & $\textbf{0.6885}$  \\
 %      Combined+backoff & $\textbf{0.7703}$ & $0.6085$ & $0.6799$ \\            
       \bottomrule
     \end{tabular}
